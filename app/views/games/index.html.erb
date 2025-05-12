@@ -1,0 +1,198 @@
+<div>
+  <div>
+    <h1>
+      List of all games
+    </h1>
+  </div>
+</div>
+
+<hr>
+
+<div>
+  <div>
+    <h2>
+      Add a new game
+    </h2>
+
+    <form action="/insert_game" method="post">
+      <div>
+        <label for="latitude_box">
+          Latitude
+        </label>
+
+        <input type="text" id="latitude_box" name="query_latitude">
+      </div>
+
+      <div>
+        <label for="longitude_box">
+          Longitude
+        </label>
+
+        <input type="text" id="longitude_box" name="query_longitude">
+      </div>
+
+      <div>
+        <label for="search_radius_box">
+          Search radius
+        </label>
+
+        <input type="text" id="search_radius_box" name="query_search_radius">
+      </div>
+
+      <div>
+        <label for="number_of_questions_box">
+          Number of questions
+        </label>
+
+        <input type="text" id="number_of_questions_box" name="query_number_of_questions">
+      </div>
+
+      <div>
+        <label for="correct_answers_box">
+          Correct answers
+        </label>
+
+        <input type="text" id="correct_answers_box" name="query_correct_answers">
+      </div>
+
+      <div>
+        <label for="incorrect_answers_box">
+          Incorrect answers
+        </label>
+
+        <input type="text" id="incorrect_answers_box" name="query_incorrect_answers">
+      </div>
+
+      <div>
+        <label for="difficulty_box">
+          Difficulty
+        </label>
+
+        <input type="text" id="difficulty_box" name="query_difficulty">
+      </div>
+
+      <div>
+        <label for="user_id_box">
+          User
+        </label>
+
+        <input type="text" id="user_id_box" name="query_user_id">
+      </div>
+
+      <button>
+        Create game
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
+<div>
+  <div>
+    <table border="1">
+      <tr>
+        <th>
+          ID
+        </th>
+
+        <th>
+          Latitude
+        </th>
+
+        <th>
+          Longitude
+        </th>
+
+        <th>
+          Search radius
+        </th>
+
+        <th>
+          Number of questions
+        </th>
+
+        <th>
+          Correct answers
+        </th>
+
+        <th>
+          Incorrect answers
+        </th>
+
+        <th>
+          Difficulty
+        </th>
+
+        <th>
+          User
+        </th>
+
+        <th>
+          Created at
+        </th>
+
+        <th>
+          Updated at
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @list_of_games.each do |a_game| %>
+      <tr>
+        <td>
+          <%= a_game.id %>
+        </td>
+
+        <td>
+          <%= a_game.latitude %>
+        </td>
+
+        <td>
+          <%= a_game.longitude %>
+        </td>
+
+        <td>
+          <%= a_game.search_radius %>
+        </td>
+
+        <td>
+          <%= a_game.number_of_questions %>
+        </td>
+
+        <td>
+          <%= a_game.correct_answers %>
+        </td>
+
+        <td>
+          <%= a_game.incorrect_answers %>
+        </td>
+
+        <td>
+          <%= a_game.difficulty %>
+        </td>
+
+        <td>
+          <%= a_game.user_id %>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(a_game.created_at) %> ago
+        </td>
+        <td>
+          <%= time_ago_in_words(a_game.updated_at) %> ago
+        </td>
+
+        <td>
+          <a href="/games/<%= a_game.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<hr>

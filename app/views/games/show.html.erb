@@ -1,0 +1,176 @@
+<div>
+  <div>
+    <h1>
+      Game #<%= @the_game.id %> details
+    </h1>
+
+    <div>
+      <div>
+        <a href="/games">
+          Go back
+        </a>
+      </div>
+
+      <div>
+        <a href="/delete_game/<%= @the_game.id %>">
+          Delete game
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Latitude
+      </dt>
+      <dd>
+        <%= @the_game.latitude %>
+      </dd>
+
+      <dt>
+        Longitude
+      </dt>
+      <dd>
+        <%= @the_game.longitude %>
+      </dd>
+
+      <dt>
+        Search radius
+      </dt>
+      <dd>
+        <%= @the_game.search_radius %>
+      </dd>
+
+      <dt>
+        Number of questions
+      </dt>
+      <dd>
+        <%= @the_game.number_of_questions %>
+      </dd>
+
+      <dt>
+        Correct answers
+      </dt>
+      <dd>
+        <%= @the_game.correct_answers %>
+      </dd>
+
+      <dt>
+        Incorrect answers
+      </dt>
+      <dd>
+        <%= @the_game.incorrect_answers %>
+      </dd>
+
+      <dt>
+        Difficulty
+      </dt>
+      <dd>
+        <%= @the_game.difficulty %>
+      </dd>
+
+      <dt>
+        User
+      </dt>
+      <dd>
+        <%= @the_game.user_id %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_game.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_game.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div>
+  <div>
+    <h2>
+      Edit game
+    </h2>
+
+    <form action="/modify_game/<%= @the_game.id %>"  method="post" >
+      <div>
+        <label for="latitude_box">
+          Latitude
+        </label>
+
+        <input type="text" id="latitude_box" name="query_latitude" value="<%= @the_game.latitude %>">
+      </div>
+
+      <div>
+        <label for="longitude_box">
+          Longitude
+        </label>
+
+        <input type="text" id="longitude_box" name="query_longitude" value="<%= @the_game.longitude %>">
+      </div>
+
+      <div>
+        <label for="search_radius_box">
+          Search radius
+        </label>
+
+        <input type="text" id="search_radius_box" name="query_search_radius" value="<%= @the_game.search_radius %>">
+      </div>
+
+      <div>
+        <label for="number_of_questions_box">
+          Number of questions
+        </label>
+
+        <input type="text" id="number_of_questions_box" name="query_number_of_questions" value="<%= @the_game.number_of_questions %>">
+      </div>
+
+      <div>
+        <label for="correct_answers_box">
+          Correct answers
+        </label>
+
+        <input type="text" id="correct_answers_box" name="query_correct_answers" value="<%= @the_game.correct_answers %>">
+      </div>
+
+      <div>
+        <label for="incorrect_answers_box">
+          Incorrect answers
+        </label>
+
+        <input type="text" id="incorrect_answers_box" name="query_incorrect_answers" value="<%= @the_game.incorrect_answers %>">
+      </div>
+
+      <div>
+        <label for="difficulty_box">
+          Difficulty
+        </label>
+
+        <input type="text" id="difficulty_box" name="query_difficulty" value="<%= @the_game.difficulty %>">
+      </div>
+
+      <div>
+        <label for="user_id_box">
+          User
+        </label>
+
+        <input type="text" id="user_id_box" name="query_user_id" value="<%= @the_game.user_id %>">
+      </div>
+
+      <button>
+        Update game
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
