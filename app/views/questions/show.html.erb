@@ -1,0 +1,206 @@
+<div>
+  <div>
+    <h1>
+      Question #<%= @the_question.id %> details
+    </h1>
+
+    <div>
+      <div>
+        <a href="/questions">
+          Go back
+        </a>
+      </div>
+
+      <div>
+        <a href="/delete_question/<%= @the_question.id %>">
+          Delete question
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Challenge
+      </dt>
+      <dd>
+        <%= @the_question.challenge %>
+      </dd>
+
+      <dt>
+        Image
+      </dt>
+      <dd>
+        <%= @the_question.image %>
+      </dd>
+
+      <dt>
+        Correct answer
+      </dt>
+      <dd>
+        <%= @the_question.correct_answer %>
+      </dd>
+
+      <dt>
+        Option a
+      </dt>
+      <dd>
+        <%= @the_question.option_a %>
+      </dd>
+
+      <dt>
+        Option b
+      </dt>
+      <dd>
+        <%= @the_question.option_b %>
+      </dd>
+
+      <dt>
+        Option c
+      </dt>
+      <dd>
+        <%= @the_question.option_c %>
+      </dd>
+
+      <dt>
+        Option d
+      </dt>
+      <dd>
+        <%= @the_question.option_d %>
+      </dd>
+
+      <dt>
+        Correct answers
+      </dt>
+      <dd>
+        <%= @the_question.correct_answers %>
+      </dd>
+
+      <dt>
+        Attempts
+      </dt>
+      <dd>
+        <%= @the_question.attempts %>
+      </dd>
+
+      <dt>
+        Share correct
+      </dt>
+      <dd>
+        <%= @the_question.share_correct %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_question.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_question.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div>
+  <div>
+    <h2>
+      Edit question
+    </h2>
+
+    <form action="/modify_question/<%= @the_question.id %>"  method="post" >
+      <div>
+        <label for="challenge_box">
+          Challenge
+        </label>
+
+        <input type="text" id="challenge_box" name="query_challenge" value="<%= @the_question.challenge %>">
+      </div>
+
+      <div>
+        <label for="image_box">
+          Image
+        </label>
+
+        <input type="text" id="image_box" name="query_image" value="<%= @the_question.image %>">
+      </div>
+
+      <div>
+        <label for="correct_answer_box">
+          Correct answer
+        </label>
+
+        <input type="text" id="correct_answer_box" name="query_correct_answer" value="<%= @the_question.correct_answer %>">
+      </div>
+
+      <div>
+        <label for="option_a_box">
+          Option a
+        </label>
+
+        <input type="text" id="option_a_box" name="query_option_a" value="<%= @the_question.option_a %>">
+      </div>
+
+      <div>
+        <label for="option_b_box">
+          Option b
+        </label>
+
+        <input type="text" id="option_b_box" name="query_option_b" value="<%= @the_question.option_b %>">
+      </div>
+
+      <div>
+        <label for="option_c_box">
+          Option c
+        </label>
+
+        <input type="text" id="option_c_box" name="query_option_c" value="<%= @the_question.option_c %>">
+      </div>
+
+      <div>
+        <label for="option_d_box">
+          Option d
+        </label>
+
+        <input type="text" id="option_d_box" name="query_option_d" value="<%= @the_question.option_d %>">
+      </div>
+
+      <div>
+        <label for="correct_answers_box">
+          Correct answers
+        </label>
+
+        <input type="text" id="correct_answers_box" name="query_correct_answers" value="<%= @the_question.correct_answers %>">
+      </div>
+
+      <div>
+        <label for="attempts_box">
+          Attempts
+        </label>
+
+        <input type="text" id="attempts_box" name="query_attempts" value="<%= @the_question.attempts %>">
+      </div>
+
+      <div>
+        <label for="share_correct_box">
+          Share correct
+        </label>
+
+        <input type="text" id="share_correct_box" name="query_share_correct" value="<%= @the_question.share_correct %>">
+      </div>
+
+      <button>
+        Update question
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>

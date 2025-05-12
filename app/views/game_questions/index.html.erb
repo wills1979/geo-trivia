@@ -1,0 +1,116 @@
+<div>
+  <div>
+    <h1>
+      List of all game questions
+    </h1>
+  </div>
+</div>
+
+<hr>
+
+<div>
+  <div>
+    <h2>
+      Add a new game question
+    </h2>
+
+    <form action="/insert_game_question" method="post">
+      <div>
+        <label for="question_id_box">
+          Question
+        </label>
+
+        <input type="text" id="question_id_box" name="query_question_id">
+      </div>
+
+      <div>
+        <label for="game_id_box">
+          Game
+        </label>
+
+        <input type="text" id="game_id_box" name="query_game_id">
+      </div>
+
+      <div>
+        <input type="checkbox" id="correct_box" name="query_correct" value="1">
+
+        <label for="correct_box">Correct</label>
+      </div>
+
+      <button>
+        Create game question
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
+<div>
+  <div>
+    <table border="1">
+      <tr>
+        <th>
+          ID
+        </th>
+
+        <th>
+          Question
+        </th>
+
+        <th>
+          Game
+        </th>
+
+        <th>
+          Correct
+        </th>
+
+        <th>
+          Created at
+        </th>
+
+        <th>
+          Updated at
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @list_of_game_questions.each do |a_game_question| %>
+      <tr>
+        <td>
+          <%= a_game_question.id %>
+        </td>
+
+        <td>
+          <%= a_game_question.question_id %>
+        </td>
+
+        <td>
+          <%= a_game_question.game_id %>
+        </td>
+
+        <td>
+          <%= a_game_question.correct %>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(a_game_question.created_at) %> ago
+        </td>
+        <td>
+          <%= time_ago_in_words(a_game_question.updated_at) %> ago
+        </td>
+
+        <td>
+          <a href="/game_questions/<%= a_game_question.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<hr>

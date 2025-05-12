@@ -10,9 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_12_205734) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_12_210041) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "game_questions", force: :cascade do |t|
+    t.integer "question_id"
+    t.integer "game_id"
+    t.boolean "correct"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "game_topics", force: :cascade do |t|
+    t.integer "game_id"
+    t.integer "topic_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "games", force: :cascade do |t|
     t.float "latitude"
@@ -23,6 +38,31 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_12_205734) do
     t.integer "incorrect_answers"
     t.string "difficulty"
     t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.string "challenge"
+    t.string "image"
+    t.string "correct_answer"
+    t.string "option_a"
+    t.string "option_b"
+    t.string "option_c"
+    t.string "option_d"
+    t.integer "correct_answers"
+    t.integer "attempts"
+    t.float "share_correct"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "topics", force: :cascade do |t|
+    t.string "name"
+    t.float "longitude"
+    t.float "latitude"
+    t.string "image"
+    t.text "wikipedia_text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

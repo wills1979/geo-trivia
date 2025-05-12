@@ -1,0 +1,86 @@
+<div>
+  <div>
+    <h1>
+      Game topic #<%= @the_game_topic.id %> details
+    </h1>
+
+    <div>
+      <div>
+        <a href="/game_topics">
+          Go back
+        </a>
+      </div>
+
+      <div>
+        <a href="/delete_game_topic/<%= @the_game_topic.id %>">
+          Delete game topic
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Game
+      </dt>
+      <dd>
+        <%= @the_game_topic.game_id %>
+      </dd>
+
+      <dt>
+        Topic
+      </dt>
+      <dd>
+        <%= @the_game_topic.topic_id %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_game_topic.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_game_topic.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div>
+  <div>
+    <h2>
+      Edit game topic
+    </h2>
+
+    <form action="/modify_game_topic/<%= @the_game_topic.id %>"  method="post" >
+      <div>
+        <label for="game_id_box">
+          Game
+        </label>
+
+        <input type="text" id="game_id_box" name="query_game_id" value="<%= @the_game_topic.game_id %>">
+      </div>
+
+      <div>
+        <label for="topic_id_box">
+          Topic
+        </label>
+
+        <input type="text" id="topic_id_box" name="query_topic_id" value="<%= @the_game_topic.topic_id %>">
+      </div>
+
+      <button>
+        Update game topic
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>

@@ -1,0 +1,131 @@
+<div>
+  <div>
+    <h1>
+      Topic #<%= @the_topic.id %> details
+    </h1>
+
+    <div>
+      <div>
+        <a href="/topics">
+          Go back
+        </a>
+      </div>
+
+      <div>
+        <a href="/delete_topic/<%= @the_topic.id %>">
+          Delete topic
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Name
+      </dt>
+      <dd>
+        <%= @the_topic.name %>
+      </dd>
+
+      <dt>
+        Longitude
+      </dt>
+      <dd>
+        <%= @the_topic.longitude %>
+      </dd>
+
+      <dt>
+        Latitude
+      </dt>
+      <dd>
+        <%= @the_topic.latitude %>
+      </dd>
+
+      <dt>
+        Image
+      </dt>
+      <dd>
+        <%= @the_topic.image %>
+      </dd>
+
+      <dt>
+        Wikipedia text
+      </dt>
+      <dd>
+        <%= @the_topic.wikipedia_text %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_topic.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_topic.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div>
+  <div>
+    <h2>
+      Edit topic
+    </h2>
+
+    <form action="/modify_topic/<%= @the_topic.id %>"  method="post" >
+      <div>
+        <label for="name_box">
+          Name
+        </label>
+
+        <input type="text" id="name_box" name="query_name" value="<%= @the_topic.name %>">
+      </div>
+
+      <div>
+        <label for="longitude_box">
+          Longitude
+        </label>
+
+        <input type="text" id="longitude_box" name="query_longitude" value="<%= @the_topic.longitude %>">
+      </div>
+
+      <div>
+        <label for="latitude_box">
+          Latitude
+        </label>
+
+        <input type="text" id="latitude_box" name="query_latitude" value="<%= @the_topic.latitude %>">
+      </div>
+
+      <div>
+        <label for="image_box">
+          Image
+        </label>
+
+        <input type="text" id="image_box" name="query_image" value="<%= @the_topic.image %>">
+      </div>
+
+      <div>
+        <label for="wikipedia_text_box">
+          Wikipedia text
+        </label>
+
+        <textarea id="wikipedia_text_box" name="query_wikipedia_text"><%= @the_topic.wikipedia_text %></textarea>
+      </div>
+
+      <button>
+        Update topic
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>

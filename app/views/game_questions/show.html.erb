@@ -1,0 +1,101 @@
+<div>
+  <div>
+    <h1>
+      Game question #<%= @the_game_question.id %> details
+    </h1>
+
+    <div>
+      <div>
+        <a href="/game_questions">
+          Go back
+        </a>
+      </div>
+
+      <div>
+        <a href="/delete_game_question/<%= @the_game_question.id %>">
+          Delete game question
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Question
+      </dt>
+      <dd>
+        <%= @the_game_question.question_id %>
+      </dd>
+
+      <dt>
+        Game
+      </dt>
+      <dd>
+        <%= @the_game_question.game_id %>
+      </dd>
+
+      <dt>
+        Correct
+      </dt>
+      <dd>
+        <%= @the_game_question.correct %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_game_question.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_game_question.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div>
+  <div>
+    <h2>
+      Edit game question
+    </h2>
+
+    <form action="/modify_game_question/<%= @the_game_question.id %>"  method="post" >
+      <div>
+        <label for="question_id_box">
+          Question
+        </label>
+
+        <input type="text" id="question_id_box" name="query_question_id" value="<%= @the_game_question.question_id %>">
+      </div>
+
+      <div>
+        <label for="game_id_box">
+          Game
+        </label>
+
+        <input type="text" id="game_id_box" name="query_game_id" value="<%= @the_game_question.game_id %>">
+      </div>
+
+      <div>
+        <input type="checkbox" id="correct_box" name="query_correct" value="1" <%= "checked" if @the_game_question.correct %>>
+
+        <label for="correct_box">
+            Correct
+        </label>
+      </div>
+
+      <button>
+        Update game question
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>

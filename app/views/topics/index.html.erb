@@ -1,0 +1,150 @@
+<div>
+  <div>
+    <h1>
+      List of all topics
+    </h1>
+  </div>
+</div>
+
+<hr>
+
+<div>
+  <div>
+    <h2>
+      Add a new topic
+    </h2>
+
+    <form action="/insert_topic" method="post">
+      <div>
+        <label for="name_box">
+          Name
+        </label>
+
+        <input type="text" id="name_box" name="query_name">
+      </div>
+
+      <div>
+        <label for="longitude_box">
+          Longitude
+        </label>
+
+        <input type="text" id="longitude_box" name="query_longitude">
+      </div>
+
+      <div>
+        <label for="latitude_box">
+          Latitude
+        </label>
+
+        <input type="text" id="latitude_box" name="query_latitude">
+      </div>
+
+      <div>
+        <label for="image_box">
+          Image
+        </label>
+
+        <input type="text" id="image_box" name="query_image">
+      </div>
+
+      <div>
+        <label for="wikipedia_text_box">
+          Wikipedia text
+        </label>
+
+        <textarea id="wikipedia_text_box" name="query_wikipedia_text" rows="3"></textarea>
+      </div>
+
+      <button>
+        Create topic
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
+<div>
+  <div>
+    <table border="1">
+      <tr>
+        <th>
+          ID
+        </th>
+
+        <th>
+          Name
+        </th>
+
+        <th>
+          Longitude
+        </th>
+
+        <th>
+          Latitude
+        </th>
+
+        <th>
+          Image
+        </th>
+
+        <th>
+          Wikipedia text
+        </th>
+
+        <th>
+          Created at
+        </th>
+
+        <th>
+          Updated at
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @list_of_topics.each do |a_topic| %>
+      <tr>
+        <td>
+          <%= a_topic.id %>
+        </td>
+
+        <td>
+          <%= a_topic.name %>
+        </td>
+
+        <td>
+          <%= a_topic.longitude %>
+        </td>
+
+        <td>
+          <%= a_topic.latitude %>
+        </td>
+
+        <td>
+          <%= a_topic.image %>
+        </td>
+
+        <td>
+          <%= a_topic.wikipedia_text %>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(a_topic.created_at) %> ago
+        </td>
+        <td>
+          <%= time_ago_in_words(a_topic.updated_at) %> ago
+        </td>
+
+        <td>
+          <a href="/topics/<%= a_topic.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<hr>

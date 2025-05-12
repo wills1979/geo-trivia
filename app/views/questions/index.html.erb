@@ -1,0 +1,230 @@
+<div>
+  <div>
+    <h1>
+      List of all questions
+    </h1>
+  </div>
+</div>
+
+<hr>
+
+<div>
+  <div>
+    <h2>
+      Add a new question
+    </h2>
+
+    <form action="/insert_question" method="post">
+      <div>
+        <label for="challenge_box">
+          Challenge
+        </label>
+
+        <input type="text" id="challenge_box" name="query_challenge">
+      </div>
+
+      <div>
+        <label for="image_box">
+          Image
+        </label>
+
+        <input type="text" id="image_box" name="query_image">
+      </div>
+
+      <div>
+        <label for="correct_answer_box">
+          Correct answer
+        </label>
+
+        <input type="text" id="correct_answer_box" name="query_correct_answer">
+      </div>
+
+      <div>
+        <label for="option_a_box">
+          Option a
+        </label>
+
+        <input type="text" id="option_a_box" name="query_option_a">
+      </div>
+
+      <div>
+        <label for="option_b_box">
+          Option b
+        </label>
+
+        <input type="text" id="option_b_box" name="query_option_b">
+      </div>
+
+      <div>
+        <label for="option_c_box">
+          Option c
+        </label>
+
+        <input type="text" id="option_c_box" name="query_option_c">
+      </div>
+
+      <div>
+        <label for="option_d_box">
+          Option d
+        </label>
+
+        <input type="text" id="option_d_box" name="query_option_d">
+      </div>
+
+      <div>
+        <label for="correct_answers_box">
+          Correct answers
+        </label>
+
+        <input type="text" id="correct_answers_box" name="query_correct_answers">
+      </div>
+
+      <div>
+        <label for="attempts_box">
+          Attempts
+        </label>
+
+        <input type="text" id="attempts_box" name="query_attempts">
+      </div>
+
+      <div>
+        <label for="share_correct_box">
+          Share correct
+        </label>
+
+        <input type="text" id="share_correct_box" name="query_share_correct">
+      </div>
+
+      <button>
+        Create question
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
+<div>
+  <div>
+    <table border="1">
+      <tr>
+        <th>
+          ID
+        </th>
+
+        <th>
+          Challenge
+        </th>
+
+        <th>
+          Image
+        </th>
+
+        <th>
+          Correct answer
+        </th>
+
+        <th>
+          Option a
+        </th>
+
+        <th>
+          Option b
+        </th>
+
+        <th>
+          Option c
+        </th>
+
+        <th>
+          Option d
+        </th>
+
+        <th>
+          Correct answers
+        </th>
+
+        <th>
+          Attempts
+        </th>
+
+        <th>
+          Share correct
+        </th>
+
+        <th>
+          Created at
+        </th>
+
+        <th>
+          Updated at
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @list_of_questions.each do |a_question| %>
+      <tr>
+        <td>
+          <%= a_question.id %>
+        </td>
+
+        <td>
+          <%= a_question.challenge %>
+        </td>
+
+        <td>
+          <%= a_question.image %>
+        </td>
+
+        <td>
+          <%= a_question.correct_answer %>
+        </td>
+
+        <td>
+          <%= a_question.option_a %>
+        </td>
+
+        <td>
+          <%= a_question.option_b %>
+        </td>
+
+        <td>
+          <%= a_question.option_c %>
+        </td>
+
+        <td>
+          <%= a_question.option_d %>
+        </td>
+
+        <td>
+          <%= a_question.correct_answers %>
+        </td>
+
+        <td>
+          <%= a_question.attempts %>
+        </td>
+
+        <td>
+          <%= a_question.share_correct %>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(a_question.created_at) %> ago
+        </td>
+        <td>
+          <%= time_ago_in_words(a_question.updated_at) %> ago
+        </td>
+
+        <td>
+          <a href="/questions/<%= a_question.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<hr>
