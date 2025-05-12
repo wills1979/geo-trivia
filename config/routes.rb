@@ -1,9 +1,35 @@
 Rails.application.routes.draw do
+
+  devise_for :users
+
+  root to: "games#index"
+  
+  #------------------------------
+
+  # Routes for the Game resource:
+
+  # CREATE
+  post("/insert_game", { :controller => "games", :action => "create" })
+          
+  # READ
+  get("/games", { :controller => "games", :action => "index" })
+  
+  get("/games/:path_id", { :controller => "games", :action => "show" })
+  
+  # UPDATE
+  
+  post("/modify_game/:path_id", { :controller => "games", :action => "update" })
+  
+  # DELETE
+  get("/delete_game/:path_id", { :controller => "games", :action => "destroy" })
+
+  #------------------------------
+
   # Routes for the Question resource:
 
   # CREATE
   post("/insert_question", { :controller => "questions", :action => "create" })
-          
+  
   # READ
   get("/questions", { :controller => "questions", :action => "index" })
   
@@ -15,25 +41,6 @@ Rails.application.routes.draw do
   
   # DELETE
   get("/delete_question/:path_id", { :controller => "questions", :action => "destroy" })
-
-  #------------------------------
-
-  # Routes for the Game question resource:
-
-  # CREATE
-  post("/insert_game_question", { :controller => "game_questions", :action => "create" })
-          
-  # READ
-  get("/game_questions", { :controller => "game_questions", :action => "index" })
-  
-  get("/game_questions/:path_id", { :controller => "game_questions", :action => "show" })
-  
-  # UPDATE
-  
-  post("/modify_game_question/:path_id", { :controller => "game_questions", :action => "update" })
-  
-  # DELETE
-  get("/delete_game_question/:path_id", { :controller => "game_questions", :action => "destroy" })
 
   #------------------------------
 
@@ -72,31 +79,24 @@ Rails.application.routes.draw do
   
   # DELETE
   get("/delete_game_topic/:path_id", { :controller => "game_topics", :action => "destroy" })
-
+  
   #------------------------------
 
-  # Routes for the Game resource:
+    # Routes for the Game question resource:
 
   # CREATE
-  post("/insert_game", { :controller => "games", :action => "create" })
+  post("/insert_game_question", { :controller => "game_questions", :action => "create" })
           
   # READ
-  get("/games", { :controller => "games", :action => "index" })
+  get("/game_questions", { :controller => "game_questions", :action => "index" })
   
-  get("/games/:path_id", { :controller => "games", :action => "show" })
+  get("/game_questions/:path_id", { :controller => "game_questions", :action => "show" })
   
   # UPDATE
   
-  post("/modify_game/:path_id", { :controller => "games", :action => "update" })
+  post("/modify_game_question/:path_id", { :controller => "game_questions", :action => "update" })
   
   # DELETE
-  get("/delete_game/:path_id", { :controller => "games", :action => "destroy" })
-
-  #------------------------------
-
-  devise_for :users
-
-  root to: "games#index"
-  
+  get("/delete_game_question/:path_id", { :controller => "game_questions", :action => "destroy" })
   
 end
