@@ -12,16 +12,7 @@
 #  search_radius       :float
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
-#  topic_id            :bigint           not null
 #  user_id             :integer
-#
-# Indexes
-#
-#  index_games_on_topic_id  (topic_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (topic_id => topics.id)
 #
 class Game < ApplicationRecord
 end
