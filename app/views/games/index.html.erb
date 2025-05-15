@@ -20,7 +20,7 @@
           Latitude
         </label>
 
-        <input type="text" id="latitude_box" name="query_latitude">
+        <input type="text" id="latitude_box" name="query_latitude" value="41.0">
       </div>
 
       <div>
@@ -28,7 +28,7 @@
           Longitude
         </label>
 
-        <input type="text" id="longitude_box" name="query_longitude">
+        <input type="text" id="longitude_box" name="query_longitude" value="-87.0">
       </div>
 
       <div>
@@ -36,7 +36,7 @@
           Search radius
         </label>
 
-        <input type="text" id="search_radius_box" name="query_search_radius">
+        <input type="text" id="search_radius_box" name="query_search_radius" value=150>
       </div>
 
       <div>
@@ -44,7 +44,7 @@
           Number of questions
         </label>
 
-        <input type="text" id="number_of_questions_box" name="query_number_of_questions">
+        <input type="text" id="number_of_questions_box" name="query_number_of_questions" value=5>
       </div>
 
       <div>
@@ -52,7 +52,7 @@
           Correct answers
         </label>
 
-        <input type="text" id="correct_answers_box" name="query_correct_answers">
+        <input type="text" id="correct_answers_box" name="query_correct_answers" value=0>
       </div>
 
       <div>
@@ -60,7 +60,7 @@
           Incorrect answers
         </label>
 
-        <input type="text" id="incorrect_answers_box" name="query_incorrect_answers">
+        <input type="text" id="incorrect_answers_box" name="query_incorrect_answers" value=0>
       </div>
 
       <div>
@@ -68,7 +68,7 @@
           Difficulty
         </label>
 
-        <input type="text" id="difficulty_box" name="query_difficulty">
+        <input type="text" id="difficulty_box" name="query_difficulty" value="easy">
       </div>
 
       <div>
@@ -76,7 +76,7 @@
           User
         </label>
 
-        <input type="text" id="user_id_box" name="query_user_id">
+        <input type="text" id="user_id_box" name="query_user_id" value=<%= current_user != nil ? current_user.id : 0 %>
       </div>
 
       <button>

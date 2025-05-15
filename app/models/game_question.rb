@@ -11,7 +11,7 @@
 #
 class GameQuestion < ApplicationRecord
   # validations
-  validates :correct, presence: true
+  validates :correct, inclusion: { in: [true, false] }
   
   # direct associations
   belongs_to :game
