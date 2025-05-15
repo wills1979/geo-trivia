@@ -12,4 +12,5 @@
 #  updated_at     :datetime         not null
 #
 class Topic < ApplicationRecord
+  has_many :questions, dependent: :destroy
 end
