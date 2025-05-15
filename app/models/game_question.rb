@@ -10,4 +10,12 @@
 #  question_id :integer
 #
 class GameQuestion < ApplicationRecord
+  # validations
+  validates :correct, presence: true
+  
+  # direct associations
+  belongs_to :game
+  belongs_to :question
+
+  # indirect associations
 end

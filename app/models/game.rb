@@ -15,4 +15,21 @@
 #  user_id             :integer
 #
 class Game < ApplicationRecord
+  # validations
+  validates :search_radius, presence: true
+  validates :number_of_questions, presence: true
+  validates :longitude, presence: true
+  validates :latitude, presence: true
+  validates :incorrect_answers, presence: true
+  validates :difficulty, presence: true
+  validates :correct_answers, presence: true
+
+  # direct associations
+  belongs_to :user
+  has_many :game_topics, dependent: :destroy
+  has_many :game_questions, dependent: :destroy
+
+  # indirect associations
+  has_many :topics, through: :game_topics, source: :topic
+  has_many :questions, through: :game_questions, source: :question
 end
