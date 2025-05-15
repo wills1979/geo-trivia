@@ -9,9 +9,10 @@ task({ :sample_data => :environment }) do
   if Rails.env.development?
     User.destroy_all
     Game.destroy_all
-    # Question.destroy_all
+    Question.destroy_all
   end
 
+  # add users
   usernames = ["alice", "bob", "carol", "dave", "eve"]
 
   usernames.each do |username|
@@ -23,6 +24,7 @@ task({ :sample_data => :environment }) do
     user.save
   end
 
+  # add a game
   game = Game.new
   game.latitude = 41.789010656307404
   game.longitude = -87.59731226902139
@@ -31,26 +33,37 @@ task({ :sample_data => :environment }) do
   game.correct_answers = 3
   game.incorrect_answers = 2
   game.difficulty = "easy"
-  game.user_id = User.where( { :email => "alice@example.com"} ).at(0).id
+  game.user_id = User.where({ :email => "alice@example.com" }).at(0).id
   game.save
 
-  # 5.times do
-  #   board = Board.new
-  #   board.name = Faker::Address.community
-  #   board.user_id = User.all.sample.id
-  #   board.save
+  # add some questions
+  20.times do
+    first_number = rand(0..10)
+    second_number = rand(0..10)
 
-  #   rand(10..50).times do
-  #     post = Post.new
-  #     post.user_id = User.all.sample.id
-  #     post.board_id = board.id
-  #     post.title = rand < 0.5 ? Faker::Commerce.product_name : Faker::Job.title
-  #     post.body = Faker::Lorem.paragraphs(number: rand(1..5), supplemental: true).join("\n\n")
-  #     post.created_at = Faker::Date.backward(days: 120)
-  #     post.expires_on = post.created_at + rand(3..90).days
-  #     post.save
-  #   end
-  # end
+    question = Question.new
+    question.challenge = "What is #{first_number} + #{second_number}?"
+    question.image = "question_mark.jpg"
+
+    correct_answer = (first_number + second_number).to_s
+    question.correct_answer = correct_answer
+
+    # Generate 3 incorrect answers and shuffle them with the correct one
+    options = [correct_answer, rand(0..20).to_s, rand(0..20).to_s, rand(0..20).to_s].shuffle
+
+    question.option_a = options[0]
+    question.option_b = options[1]
+    question.option_c = options[2]
+    question.option_d = options[3]
+
+    # Add stats
+    question.correct_answers = 0
+    question.attempts = 0
+    question.share_correct = 0
+
+    question.save
+  end
+
 
   puts "There are now #{User.count} rows in the users table."
   puts "There are now #{Game.count} rows in the games table."
