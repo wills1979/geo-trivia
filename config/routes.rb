@@ -66,37 +66,37 @@ Rails.application.routes.draw do
   # Routes for the Game topic resource:
 
   # CREATE
-  post("/insert_game_topic", { :controller => "game_topics", :action => "create" })
+  # post("/insert_game_topic", { :controller => "game_topics", :action => "create" })
           
-  # READ
-  get("/game_topics", { :controller => "game_topics", :action => "index" })
+  # # READ
+  # get("/game_topics", { :controller => "game_topics", :action => "index" })
   
-  get("/game_topics/:path_id", { :controller => "game_topics", :action => "show" })
+  # get("/game_topics/:path_id", { :controller => "game_topics", :action => "show" })
   
-  # UPDATE
+  # # UPDATE
   
-  post("/modify_game_topic/:path_id", { :controller => "game_topics", :action => "update" })
+  # post("/modify_game_topic/:path_id", { :controller => "game_topics", :action => "update" })
   
-  # DELETE
-  get("/delete_game_topic/:path_id", { :controller => "game_topics", :action => "destroy" })
+  # # DELETE
+  # get("/delete_game_topic/:path_id", { :controller => "game_topics", :action => "destroy" })
   
   #------------------------------
 
     # Routes for the Game question resource:
 
   # CREATE
-  post("/insert_game_question", { :controller => "game_questions", :action => "create" })
+  # post("/insert_game_question", { :controller => "game_questions", :action => "create" })
           
-  # READ
-  get("/game_questions", { :controller => "game_questions", :action => "index" })
+  # # READ
+  # get("/game_questions", { :controller => "game_questions", :action => "index" })
   
-  get("/game_questions/:path_id", { :controller => "game_questions", :action => "show" })
+  # get("/game_questions/:path_id", { :controller => "game_questions", :action => "show" })
   
-  # UPDATE
+  # # UPDATE
   
-  post("/modify_game_question/:path_id", { :controller => "game_questions", :action => "update" })
+  # post("/modify_game_question/:path_id", { :controller => "game_questions", :action => "update" })
   
-  # DELETE
-  get("/delete_game_question/:path_id", { :controller => "game_questions", :action => "destroy" })
+  # # DELETE
+  # get("/delete_game_question/:path_id", { :controller => "game_questions", :action => "destroy" })
   
 end
