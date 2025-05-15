@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_12_210041) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_15_192341) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_12_210041) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "topic_id", null: false
+    t.index ["topic_id"], name: "index_games_on_topic_id"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -55,6 +57,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_12_210041) do
     t.float "share_correct"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "topic_id", null: false
+    t.index ["topic_id"], name: "index_questions_on_topic_id"
   end
 
   create_table "topics", force: :cascade do |t|
@@ -81,4 +85,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_12_210041) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "games", "topics"
+  add_foreign_key "questions", "topics"
 end

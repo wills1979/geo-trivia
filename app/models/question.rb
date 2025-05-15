@@ -15,6 +15,15 @@
 #  share_correct   :float
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  topic_id        :bigint           not null
+#
+# Indexes
+#
+#  index_questions_on_topic_id  (topic_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (topic_id => topics.id)
 #
 class Question < ApplicationRecord
 end

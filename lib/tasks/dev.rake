@@ -36,14 +36,19 @@ task({ :sample_data => :environment }) do
   game.user_id = User.where({ :email => "alice@example.com" }).at(0).id
   game.save
 
+  # add a topic
+  
+
   # add some questions
-  20.times do
+  10.times do
     first_number = rand(0..10)
     second_number = rand(0..10)
 
     question = Question.new
     question.challenge = "What is #{first_number} + #{second_number}?"
     question.image = "question_mark.jpg"
+
+    quetion.topic_id = Topic.all.sample.id
 
     correct_answer = (first_number + second_number).to_s
     question.correct_answer = correct_answer
