@@ -2,7 +2,7 @@
   <h1>Nice job!</h1>
   <h2>You answered <%= @count_correct %> out of <%= @count_total %> correctly!</h2>
 <% elsif @score > 0.5 %>
-  <h1>Okay!</h1>
+  <h1>Not bad!</h1>
   <h2>You answered <%= @count_correct %> out of <%= @count_total %> correctly.</h2>
 <% elsif @count_correct == 0 %>
   <h1>Oof!</h1>
@@ -13,7 +13,7 @@
 <% end %>
 
 <% @questions.each_with_index  do |question, index| %>
-  <% correct = @results.fetch(question.id.to_s, false) %>
+  <% correct = @results.fetch(question.id, false) %>
   <div>
 
     <% if correct %>
@@ -31,9 +31,9 @@
   </div>
 
   <% if correct %>
-    <p>Nice job! You selected the correct answer, <%= @correct_answers.fetch(question.id.to_s) %>!</p>
-  <% elsif @answers.fetch(question.id.to_s, nil) != nil%>
-    <p>You selected <%= @answers.fetch(question.id.to_s) %> and the right answer was <%= @correct_answers.fetch(question.id.to_s) %>.</p>
+    <p>Nice job! You selected the correct answer, <%= @correct_answers.fetch(question.id) %>!</p>
+  <% elsif @answers.fetch(question.id, nil) != nil%>
+    <p>You selected <%= @answers.fetch(question.id) %> and the right answer was <%= @correct_answers.fetch(question.id) %>.</p>
     <% else %>
     <p>You didn't answer this one! The correct answer is <%= question.correct_answer %>.
   <% end %>

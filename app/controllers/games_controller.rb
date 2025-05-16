@@ -86,7 +86,7 @@ class GamesController < ApplicationController
       end
     end
 
-    game_topic_ids.each do |id|
+    game_topic_ids.uniq.each do |id|
       # create GameTopic record
       game_topic = GameTopic.new
       game_topic.topic_id = id
@@ -94,27 +94,6 @@ class GamesController < ApplicationController
       game_topic.save
     end
   end
-
-  # def update
-  #   the_id = params.fetch("path_id")
-  #   the_game = Game.where({ :id => the_id }).at(0)
-
-  #   the_game.latitude = params.fetch("query_latitude")
-  #   the_game.longitude = params.fetch("query_longitude")
-  #   the_game.search_radius = params.fetch("query_search_radius")
-  #   the_game.number_of_questions = params.fetch("query_number_of_questions")
-  #   the_game.correct_answers = params.fetch("query_correct_answers")
-  #   the_game.incorrect_answers = params.fetch("query_incorrect_answers")
-  #   the_game.difficulty = params.fetch("query_difficulty")
-  #   the_game.user_id = params.fetch("query_user_id")
-
-  #   if the_game.valid?
-  #     the_game.save
-  #     redirect_to("/games/#{the_game.id}", { :notice => "Game updated successfully." })
-  #   else
-  #     redirect_to("/games/#{the_game.id}", { :alert => the_game.errors.full_messages.to_sentence })
-  #   end
-  # end
 
   def destroy
     the_id = params.fetch("path_id")
@@ -125,7 +104,7 @@ class GamesController < ApplicationController
     redirect_to("/games", { :notice => "Game deleted successfully." })
   end
 
-  def submit_results
+  def score_results
     the_id = params.fetch("path_id")
     the_game = Game.where({ :id => the_id }).at(0)
     @answers = params[:answers] || {}
@@ -140,14 +119,15 @@ class GamesController < ApplicationController
         user_answer = @answers.fetch(question.id.to_s)
         correct_answer = @correct_answers.fetch(question.id.to_s)
         correct = [user_answer == correct_answer]
-        results_list += correct
       else
-        results_list += [false]
+        correct = [false]        
       end
+      
+      results_list += correct
 
       # add data to Question table
       question.attempts += 1
-      if correct == true
+      if correct.first
         question.correct_answers += 1
       end
 
@@ -156,25 +136,52 @@ class GamesController < ApplicationController
       question.save
 
       # update GameQuestion table
-      game_question = GameQuestion.new
+      game_question = GameQuestion.where({ :game_id => the_game.id }).where({ :question_id => question.id }).at(0)
       game_question.question_id = question.id
       game_question.game_id = the_game.id
-      game_question.correct = correct
+      game_question.correct = correct.first
       game_question.answer = user_answer
       game_question.save
     end
 
     @results = @answers.keys.zip(results_list).to_h
 
-    # calculate score
+    # calculate counts
     @count_correct = @results.select { |key, value| value == true }.length
-    @count_total = @results.length
-    @score = @count_correct.to_f / @count_total
+    @count_total = the_game.number_of_questions
 
     # update Game table
     the_game.correct_answers = @count_correct
     the_game.incorrect_answers = @count_total - @count_correct
-    the_game.save
+
+    if the_game.valid?
+      the_game.save
+      redirect_to("/results/#{the_game.id}", { :notice => "Game scored." })
+    else
+      redirect_to("/games/#{the_game.id}", { :alert => the_game.errors.full_messages.to_sentence })
+    end
+  end
+
+  def show_results
+    the_id = params.fetch("path_id")
+    the_game = Game.where({ :id => the_id }).at(0)
+
+    @results = {}
+    @answers = {}
+    @correct_answers = {}
+    @questions = the_game.questions
+    @questions.each do |question|
+      Game.where({ :id => the_id }).at(0)
+      @results[question.id] = question.game_questions.where({ :game_id => the_game.id }).where({ :question_id => question.id }).at(0).correct
+      @answers[question.id] = question.game_questions.where({ :game_id => the_game.id }).where({ :question_id => question.id }).at(0).answer
+      @correct_answers[question.id] = question.correct_answer
+
+    end
+
+    # calculate score
+    @count_correct = @results.select { |key, value| value == true }.length
+    @count_total = the_game.number_of_questions
+    @score = @count_correct.to_f / @count_total
 
     render({ :template => "games/results" })
   end

@@ -24,7 +24,10 @@ Rails.application.routes.draw do
   get("/delete_game/:path_id", { :controller => "games", :action => "destroy" })
 
   # READ
-  post("/results/:path_id", { :controller => "games", :action => "submit_results" })
+  get("/results/:path_id", { :controller => "games", :action => "show_results" })
+
+  # SCORE
+  post("/score/:path_id", { :controller => "games", :action => "score_results" })
 
   #------------------------------
 

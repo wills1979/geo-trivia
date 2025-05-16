@@ -61,11 +61,7 @@
       <table border="1">
         <tr>
           <th>
-            Latitude
-          </th>
-
-          <th>
-            Longitude
+            Location
           </th>
 
           <th>
@@ -77,11 +73,7 @@
           </th>
 
           <th>
-            Correct answers
-          </th>
-
-          <th>
-            Incorrect answers
+            Score
           </th>
 
           <th>
@@ -89,7 +81,7 @@
           </th>
 
           <th>
-            Created at
+            Created
           </th>
 
           <th>
@@ -99,11 +91,7 @@
         <% @list_of_games.each do |a_game| %>
           <tr>
             <td>
-              <%= a_game.latitude %>
-            </td>
-
-            <td>
-              <%= a_game.longitude %>
+              <%= a_game.location %>
             </td>
 
             <td>
@@ -115,11 +103,7 @@
             </td>
 
             <td>
-              <%= a_game.correct_answers %>
-            </td>
-
-            <td>
-              <%= a_game.incorrect_answers %>
+              <%= (a_game.correct_answers.to_f / a_game.number_of_questions)*100 %>%
             </td>
 
             <td>
