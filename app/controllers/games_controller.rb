@@ -109,7 +109,7 @@ class GamesController < ApplicationController
     redirect_to("/games", { :notice => "Game deleted successfully." })
   end
 
-  def show_results
+  def submit_results
     the_id = params.fetch("path_id")
     the_game = Game.where({ :id => the_id }).at(0)
     @answers = params[:answers] || {}
@@ -122,7 +122,26 @@ class GamesController < ApplicationController
     @questions.each do |question|
       user_answer = @answers.fetch(question.id.to_s)
       correct_answer = @correct_answers.fetch(question.id.to_s)
-      results_list += [user_answer == correct_answer]
+      correct = [user_answer == correct_answer]
+      results_list += correct
+
+      # add data to Question table
+      question.attempts += 1
+      if correct == true
+        question.correct_answers += 1
+      end
+      
+      # update Question table
+      question.share_correct = question.correct_answers.to_f / question.attempts
+      question.save
+
+      # update GameQuestion table
+      game_question = GameQuestion.new
+      game_question.question_id = question.id
+      game_question.game_id = the_game.id
+      game_question.correct = correct
+      game_question.save
+
     end
 
     @results = @answers.keys.zip(results_list).to_h
@@ -130,7 +149,12 @@ class GamesController < ApplicationController
     # calculate score
     @count_correct =  @results.select { |key, value| value == true }.length
     @count_total = @results.length
-    @score = @count_correct.to_f / @count_total 
+    @score = @count_correct.to_f / @count_total
+
+    # update Game table
+    the_game.correct_answers = @count_correct
+    the_game.incorrect_answers = @count_total - @count_correct
+    the_game.save
 
     render({ :template => "games/results" })
   end

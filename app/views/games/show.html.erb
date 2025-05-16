@@ -4,7 +4,7 @@
 
 </div>
 <hr>
-<form action="/results/<%= @the_game.id %>" method="get">
+<form action="/results/<%= @the_game.id %>" method="post">
   <% @questions.each_with_index  do |question, index| %>
     <div>
       <h3>Question: <%= question.challenge %></h3>

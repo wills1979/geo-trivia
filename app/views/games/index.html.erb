@@ -132,10 +132,6 @@
         </th>
 
         <th>
-          Updated at
-        </th>
-
-        <th>
         </th>
       </tr>
 
@@ -180,12 +176,9 @@
         <td>
           <%= time_ago_in_words(a_game.created_at) %> ago
         </td>
-        <td>
-          <%= time_ago_in_words(a_game.updated_at) %> ago
-        </td>
 
         <td>
-          <a href="/games/<%= a_game.id %>">
+          <a href="/results/<%= a_game.id %>">
             Show details
           </a>
         </td>
