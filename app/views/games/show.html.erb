@@ -4,7 +4,7 @@
 
 </div>
 <hr>
-<form action="/submit_answers" method="post">
+<form action="/results/<%= @the_game.id %>" method="get">
   <% @questions.each_with_index  do |question, index| %>
     <div>
       <h3>Question: <%= question.challenge %></h3>
@@ -18,23 +18,23 @@
 
       <div>
         <div class="options">
-          <input type="radio" id="option_a" name=<%= "question_#{index}" %> value=<%= question.option_a %>>
-          <label for="option_a"><%= question.option_a %></label>
+          <input type="radio" id="option_a" name="answers[<%= question.id %>]" value=<%= question.option_a %>>
+          <label for="question_<%= question.id %>_a"><%= question.option_a %></label>
         </div>
 
         <div class="options">
-          <input type="radio" id="option_b" name=<%= "question_#{index}" %> value=<%= question.option_b %>>
-          <label for="option_a"><%= question.option_b %></label>
+          <input type="radio" id="option_b" name="answers[<%= question.id %>]" value=<%= question.option_b %>>
+          <label for="question_<%= question.id %>_b"><%= question.option_b %></label>
         </div>
 
         <div class="options">
-          <input type="radio" id="option_c" name=<%= "question_#{index}" %> value=<%= question.option_c %>>
-          <label for="option_a"><%= question.option_c %></label>
+          <input type="radio" id="option_c" name="answers[<%= question.id %>]" value=<%= question.option_c %>>
+          <label for="question_<%= question.id %>_c"><%= question.option_c %></label>
         </div>
 
         <div class="options">
-          <input type="radio" id="option_d" name=<%= "question_#{index}" %> value=<%= question.option_d %>>
-          <label for="option_a"><%= question.option_d %></label>
+          <input type="radio" id="option_d" name="answers[<%= question.id %>]" value=<%= question.option_d %>>
+          <label for="question_<%= question.id %>_d"><%= question.option_d %></label>
         </div>
 
       </div>
@@ -46,97 +46,99 @@
       Submit answers
     </button>
   </div>
-  <hr>
+</form>
 
-  <h2>
-    Game details
-  </h2>
+<hr>
+
+<h2>
+  Game details
+</h2>
+
+<div>
 
   <div>
-
     <div>
-      <div>
-        <a href="/games">
-          Go back
-        </a>
-      </div>
-
-      <div>
-        <a href="/delete_game/<%= @the_game.id %>">
-          Delete game
-        </a>
-      </div>
+      <a href="/games">
+        Go back
+      </a>
     </div>
 
-    <dl>
-      <dt>
-        Latitude
-      </dt>
-      <dd>
-        <%= @the_game.latitude %>
-      </dd>
-
-      <dt>
-        Longitude
-      </dt>
-      <dd>
-        <%= @the_game.longitude %>
-      </dd>
-
-      <dt>
-        Search radius
-      </dt>
-      <dd>
-        <%= @the_game.search_radius %>
-      </dd>
-
-      <dt>
-        Number of questions
-      </dt>
-      <dd>
-        <%= @the_game.number_of_questions %>
-      </dd>
-
-      <dt>
-        Correct answers
-      </dt>
-      <dd>
-        <%= @the_game.correct_answers %>
-      </dd>
-
-      <dt>
-        Incorrect answers
-      </dt>
-      <dd>
-        <%= @the_game.incorrect_answers %>
-      </dd>
-
-      <dt>
-        Difficulty
-      </dt>
-      <dd>
-        <%= @the_game.difficulty %>
-      </dd>
-
-      <dt>
-        User
-      </dt>
-      <dd>
-        <%= @the_game.user_id %>
-      </dd>
-
-      <dt>
-        Created at
-      </dt>
-      <dd>
-        <%= time_ago_in_words(@the_game.created_at) %> ago
-      </dd>
-
-      <dt>
-        Updated at
-      </dt>
-      <dd>
-        <%= time_ago_in_words(@the_game.updated_at) %> ago
-      </dd>
-    </dl>
+    <div>
+      <a href="/delete_game/<%= @the_game.id %>">
+        Delete game
+      </a>
+    </div>
   </div>
+
+  <dl>
+    <dt>
+      Latitude
+    </dt>
+    <dd>
+      <%= @the_game.latitude %>
+    </dd>
+
+    <dt>
+      Longitude
+    </dt>
+    <dd>
+      <%= @the_game.longitude %>
+    </dd>
+
+    <dt>
+      Search radius
+    </dt>
+    <dd>
+      <%= @the_game.search_radius %>
+    </dd>
+
+    <dt>
+      Number of questions
+    </dt>
+    <dd>
+      <%= @the_game.number_of_questions %>
+    </dd>
+
+    <dt>
+      Correct answers
+    </dt>
+    <dd>
+      <%= @the_game.correct_answers %>
+    </dd>
+
+    <dt>
+      Incorrect answers
+    </dt>
+    <dd>
+      <%= @the_game.incorrect_answers %>
+    </dd>
+
+    <dt>
+      Difficulty
+    </dt>
+    <dd>
+      <%= @the_game.difficulty %>
+    </dd>
+
+    <dt>
+      User
+    </dt>
+    <dd>
+      <%= @the_game.user_id %>
+    </dd>
+
+    <dt>
+      Created at
+    </dt>
+    <dd>
+      <%= time_ago_in_words(@the_game.created_at) %> ago
+    </dd>
+
+    <dt>
+      Updated at
+    </dt>
+    <dd>
+      <%= time_ago_in_words(@the_game.updated_at) %> ago
+    </dd>
+  </dl>
+</div>

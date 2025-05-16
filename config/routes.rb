@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   # DELETE
   get("/delete_game/:path_id", { :controller => "games", :action => "destroy" })
 
+  # READ
+  get("/results/:path_id", { :controller => "games", :action => "show_results" })
+
   #------------------------------
 
   # Routes for the Question resource:
