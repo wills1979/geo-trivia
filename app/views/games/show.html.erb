@@ -9,32 +9,33 @@
     <div>
       <h3>Question: <%= question.challenge %></h3>
 
-      <!--TODO Add image-->
-      <%# if question.image.present? %>
-      <!--        <div class="question-image">
-          <img src="<%#= asset_path(question.image) %>" alt="Question Image" width="50">
-        </div>
-      <%# end %>-->
-
       <div>
         <div class="options">
-          <input type="radio" id="option_a" name="answers[<%= question.id %>]" value=<%= question.option_a %>>
-          <label for="question_<%= question.id %>_a"><%= question.option_a %></label>
+          <input type="radio" id="option_a" name="answers[<%= question.id %>]" value="a">
+          <label for="question_<%= question.id %>_a">
+            a. <%= question.option_a %>
+          </label>
         </div>
 
         <div class="options">
-          <input type="radio" id="option_b" name="answers[<%= question.id %>]" value=<%= question.option_b %>>
-          <label for="question_<%= question.id %>_b"><%= question.option_b %></label>
+          <input type="radio" id="option_b" name="answers[<%= question.id %>]" value="b">
+          <label for="question_<%= question.id %>_b">
+            b. <%= question.option_b %>
+          </label>
         </div>
 
         <div class="options">
-          <input type="radio" id="option_c" name="answers[<%= question.id %>]" value=<%= question.option_c %>>
-          <label for="question_<%= question.id %>_c"><%= question.option_c %></label>
+          <input type="radio" id="option_c" name="answers[<%= question.id %>]" value="c">
+          <label for="question_<%= question.id %>_c">
+            c. <%= question.option_c %>
+          </label>
         </div>
 
         <div class="options">
-          <input type="radio" id="option_d" name="answers[<%= question.id %>]" value=<%= question.option_d %>>
-          <label for="question_<%= question.id %>_d"><%= question.option_d %></label>
+          <input type="radio" id="option_d" name="answers[<%= question.id %>]" value="d">
+          <label for="question_<%= question.id %>_d">
+            d. <%= question.option_d %>
+          </label>
         </div>
 
       </div>

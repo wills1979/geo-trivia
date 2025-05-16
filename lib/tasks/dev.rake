@@ -69,34 +69,40 @@ task({ :sample_data => :environment }) do
     topic.save
   end
 
-  # add some questions
   100.times do
     first_number = rand(0..10)
     second_number = rand(0..10)
 
+    correct_value = (first_number + second_number).to_s
+
+    # Ensure unique incorrect answers
+    incorrect_answers = []
+    while incorrect_answers.size < 3
+      rand_value = rand(0..20).to_s
+      incorrect_answers << rand_value unless rand_value == correct_value || incorrect_answers.include?(rand_value)
+    end
+
+    all_options = incorrect_answers << correct_value
+    shuffled_options = all_options.shuffle
+
+    correct_letter = ["a", "b", "c", "d"][shuffled_options.index(correct_value)]
+
     question = Question.new
     question.challenge = "What is #{first_number} + #{second_number}?"
     question.image = "question_mark.jpg"
-
     question.topic_id = Topic.all.sample.id
 
-    correct_answer = (first_number + second_number).to_s
-    question.correct_answer = correct_answer
+    question.option_a = shuffled_options[0]
+    question.option_b = shuffled_options[1]
+    question.option_c = shuffled_options[2]
+    question.option_d = shuffled_options[3]
+    question.correct_answer = correct_letter
 
-    # Generate 3 incorrect answers and shuffle them with the correct one
-    options = [correct_answer, rand(0..20).to_s, rand(0..20).to_s, rand(0..20).to_s].shuffle
-
-    question.option_a = options[0]
-    question.option_b = options[1]
-    question.option_c = options[2]
-    question.option_d = options[3]
-
-    # Add stats
     question.correct_answers = 0
     question.attempts = 0
     question.share_correct = 0
 
-    question.save
+    question.save!
   end
 
   puts "There are now #{User.count} rows in the users table."

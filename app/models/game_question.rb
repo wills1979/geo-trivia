@@ -3,6 +3,7 @@
 # Table name: game_questions
 #
 #  id          :bigint           not null, primary key
+#  answer      :string
 #  correct     :boolean
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null

@@ -160,6 +160,7 @@ class GamesController < ApplicationController
       game_question.question_id = question.id
       game_question.game_id = the_game.id
       game_question.correct = correct
+      game_question.answer = user_answer
       game_question.save
     end
 

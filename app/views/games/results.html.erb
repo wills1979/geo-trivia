@@ -22,12 +22,12 @@
       <h3>Question <%= index+1 %>: <%= question.challenge %> <span>&#10008;</span></h3>
     <% end %>
 
-    <ul>
+    <ol type="a">
       <li><%= question.option_a %></li>
       <li><%= question.option_b %></li>
       <li><%= question.option_c %></li>
       <li><%= question.option_d %></li>
-    </ul>
+    </ol>
   </div>
 
   <% if correct %>
