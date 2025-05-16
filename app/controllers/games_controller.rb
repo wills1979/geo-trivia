@@ -136,10 +136,14 @@ class GamesController < ApplicationController
 
     results_list = []
     @questions.each do |question|
-      user_answer = @answers.fetch(question.id.to_s)
-      correct_answer = @correct_answers.fetch(question.id.to_s)
-      correct = [user_answer == correct_answer]
-      results_list += correct
+      if @answers.fetch(question.id.to_s, nil) != nil
+        user_answer = @answers.fetch(question.id.to_s)
+        correct_answer = @correct_answers.fetch(question.id.to_s)
+        correct = [user_answer == correct_answer]
+        results_list += correct
+      else
+        results_list += [false]
+      end
 
       # add data to Question table
       question.attempts += 1

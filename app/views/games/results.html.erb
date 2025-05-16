@@ -4,13 +4,16 @@
 <% elsif @score > 0.5 %>
   <h1>Okay!</h1>
   <h2>You answered <%= @count_correct %> out of <%= @count_total %> correctly.</h2>
+<% elsif @count_correct == 0 %>
+  <h1>Oof!</h1>
+  <h2>You didn't answer any correctly.</h2>
 <% else %>
   <h1>Oof!</h1>
   <h2>You answered <%= @count_correct %> out of <%= @count_total %> correctly.</h2>
 <% end %>
 
 <% @questions.each_with_index  do |question, index| %>
-  <% correct = @results.fetch(question.id.to_s) %>
+  <% correct = @results.fetch(question.id.to_s, false) %>
   <div>
 
     <% if correct %>
@@ -29,11 +32,15 @@
 
   <% if correct %>
     <p>Nice job! You selected the correct answer, <%= @correct_answers.fetch(question.id.to_s) %>!</p>
-  <% else %>
+  <% elsif @answers.fetch(question.id.to_s, nil) != nil%>
     <p>You selected <%= @answers.fetch(question.id.to_s) %> and the right answer was <%= @correct_answers.fetch(question.id.to_s) %>.</p>
+    <% else %>
+    <p>You didn't answer this one! The correct answer is <%= question.correct_answer %>.
   <% end %>
 
 <% end %>
+
+<hr>
 
 <a href="/games/">
   Play again?
