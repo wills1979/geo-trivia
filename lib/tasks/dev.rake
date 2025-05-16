@@ -70,7 +70,7 @@ task({ :sample_data => :environment }) do
   end
 
   # add some questions
-  10.times do
+  100.times do
     first_number = rand(0..10)
     second_number = rand(0..10)
 
