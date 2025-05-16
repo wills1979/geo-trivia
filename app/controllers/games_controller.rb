@@ -3,8 +3,6 @@ class GamesController < ApplicationController
     if current_user
       matching_games = current_user.games
       @list_of_games = matching_games.order({ :created_at => :desc })
-    else
-      matching_games = []
     end
 
     render({ :template => "games/index" })
@@ -41,10 +39,12 @@ class GamesController < ApplicationController
     the_game.longitude = location.fetch("lng")
     the_game.search_radius = params.fetch("query_search_radius")
     the_game.number_of_questions = params.fetch("query_number_of_questions")
-    the_game.correct_answers = params.fetch("query_correct_answers")
-    the_game.incorrect_answers = params.fetch("query_incorrect_answers")
+    the_game.correct_answers = 0
+    the_game.incorrect_answers = 0
     the_game.difficulty = params.fetch("query_difficulty")
-    the_game.user_id = params.fetch("query_user_id")
+    if current_user
+      the_game.user_id = current_user.id
+    end
 
     if the_game.valid?
       the_game.save

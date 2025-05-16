@@ -9,12 +9,12 @@
         Location
       </label>
 
-      <input type="text" id="location_box" name="query_location" value="the univeristy of chicago">
+      <input type="text" id="location_box" name="query_location" value="the university of chicago">
     </div>
 
     <div>
       <label for="search_radius_box">
-        Search radius
+        Search radius (miles)
       </label>
 
       <input type="text" id="search_radius_box" name="query_search_radius" value=150>
@@ -29,137 +29,116 @@
     </div>
 
     <div>
-      <label for="correct_answers_box">
-        Correct answers
-      </label>
-
-      <input type="text" id="correct_answers_box" name="query_correct_answers" value=0>
+      <p>Select a difficulty:</p>
+      <input type="radio" id="easy" name="query_difficulty" value="easy">
+      <label for="easy">Easy</label><br>
+      <input type="radio" id="medium" name="query_difficulty" value="medium">
+      <label for="medium">Medium</label><br>
+      <input type="radio" id="hard" name="query_difficulty" value="hard">
+      <label for="hard">Hard</label><br>
+      <br>  
     </div>
+
+    <button>
+      Create game
+    </button>
+
+  </form>
+</div>
+
+<hr>
+
+<div>
+  <h2>History</h2>
+
+  <% if current_user %>
 
     <div>
-      <label for="incorrect_answers_box">
-        Incorrect answers
-      </label>
+      <table border="1">
+        <tr>
+          <th>
+            Latitude
+          </th>
 
-      <input type="text" id="incorrect_answers_box" name="query_incorrect_answers" value=0>
+          <th>
+            Longitude
+          </th>
+
+          <th>
+            Search radius
+          </th>
+
+          <th>
+            Number of questions
+          </th>
+
+          <th>
+            Correct answers
+          </th>
+
+          <th>
+            Incorrect answers
+          </th>
+
+          <th>
+            Difficulty
+          </th>
+
+          <th>
+            Created at
+          </th>
+
+          <th>
+          </th>
+        </tr>
+
+        <% @list_of_games.each do |a_game| %>
+          <tr>
+            <td>
+              <%= a_game.latitude %>
+            </td>
+
+            <td>
+              <%= a_game.longitude %>
+            </td>
+
+            <td>
+              <%= a_game.search_radius %>
+            </td>
+
+            <td>
+              <%= a_game.number_of_questions %>
+            </td>
+
+            <td>
+              <%= a_game.correct_answers %>
+            </td>
+
+            <td>
+              <%= a_game.incorrect_answers %>
+            </td>
+
+            <td>
+              <%= a_game.difficulty %>
+            </td>
+
+            <td>
+              <%= time_ago_in_words(a_game.created_at) %> ago
+            </td>
+
+            <td>
+              <a href="/results/<%= a_game.id %>">
+                Show details
+              </a>
+            </td>
+          </tr>
+        <% end %>
+      </table>
     </div>
-
-    <div>
-      <label for="difficulty_box">
-        Difficulty
-      </label>
-
-      <input type="text" id="difficulty_box" name="query_difficulty" value="easy">
-    </div>
-
-    <div>
-      <label for="user_id_box">
-        User
-      </label>
-
-      <input type="text" id="user_id_box" name="query_user_id" value="<%= current_user != nil ? current_user.id : 0 %>"
-    </div>
-
-      <button>
-        Create game
-      </button>
-
-    </form>
   </div>
 
-  <hr>
-  
-  <div>
-    <h2>History</h2>
+<% else %>
+  <p><a href="/users/sign_in/">Sign in</a> to see your previous games.</p>
+<% end %>
 
-    <% if current_user %>
-
-      <div>
-        <table border="1">
-          <tr>
-            <th>
-              Latitude
-            </th>
-
-            <th>
-              Longitude
-            </th>
-
-            <th>
-              Search radius
-            </th>
-
-            <th>
-              Number of questions
-            </th>
-
-            <th>
-              Correct answers
-            </th>
-
-            <th>
-              Incorrect answers
-            </th>
-
-            <th>
-              Difficulty
-            </th>
-
-            <th>
-              Created at
-            </th>
-
-            <th>
-            </th>
-          </tr>
-
-          <% @list_of_games.each do |a_game| %>
-            <tr>
-              <td>
-                <%= a_game.latitude %>
-              </td>
-
-              <td>
-                <%= a_game.longitude %>
-              </td>
-
-              <td>
-                <%= a_game.search_radius %>
-              </td>
-
-              <td>
-                <%= a_game.number_of_questions %>
-              </td>
-
-              <td>
-                <%= a_game.correct_answers %>
-              </td>
-
-              <td>
-                <%= a_game.incorrect_answers %>
-              </td>
-
-              <td>
-                <%= a_game.difficulty %>
-              </td>
-
-              <td>
-                <%= time_ago_in_words(a_game.created_at) %> ago
-              </td>
-
-              <td>
-                <a href="/results/<%= a_game.id %>">
-                  Show details
-                </a>
-              </td>
-            </tr>
-          <% end %>
-        </table>
-      </div>
-    </div>
-
-  <% else %>
-    <p><a href="/login/">Login</a> to see user history.</p>
-  <% end %>
-
-  <hr>
+<hr>
