@@ -1,8 +1,58 @@
-<div>
+<h1>
+  Welcome to your new game!
+</h1>
+
+</div>
+<hr>
+<form action="/submit_answers" method="post">
+  <% @questions.each_with_index  do |question, index| %>
+    <div>
+      <h3>Question: <%= question.challenge %></h3>
+
+      <!--TODO Add image-->
+      <%# if question.image.present? %>
+      <!--        <div class="question-image">
+          <img src="<%#= asset_path(question.image) %>" alt="Question Image" width="50">
+        </div>
+      <%# end %>-->
+
+      <div>
+        <div class="options">
+          <input type="radio" id="option_a" name=<%= "question_#{index}" %> value=<%= question.option_a %>>
+          <label for="option_a"><%= question.option_a %></label>
+        </div>
+
+        <div class="options">
+          <input type="radio" id="option_b" name=<%= "question_#{index}" %> value=<%= question.option_b %>>
+          <label for="option_a"><%= question.option_b %></label>
+        </div>
+
+        <div class="options">
+          <input type="radio" id="option_c" name=<%= "question_#{index}" %> value=<%= question.option_c %>>
+          <label for="option_a"><%= question.option_c %></label>
+        </div>
+
+        <div class="options">
+          <input type="radio" id="option_d" name=<%= "question_#{index}" %> value=<%= question.option_d %>>
+          <label for="option_a"><%= question.option_d %></label>
+        </div>
+
+      </div>
+    </div>
+  <% end %>
+
   <div>
-    <h1>
-      Game #<%= @the_game.id %> details
-    </h1>
+    <button>
+      Submit answers
+    </button>
+  </div>
+  <hr>
+
+  <h2>
+    Game details
+  </h2>
+
+  <div>
 
     <div>
       <div>
@@ -90,87 +140,3 @@
       </dd>
     </dl>
   </div>
-</div>
-
-<hr>
-
-
-<div>
-  <div>
-    <h2>
-      Edit game
-    </h2>
-
-    <form action="/modify_game/<%= @the_game.id %>"  method="post" >
-      <div>
-        <label for="latitude_box">
-          Latitude
-        </label>
-
-        <input type="text" id="latitude_box" name="query_latitude" value="<%= @the_game.latitude %>">
-      </div>
-
-      <div>
-        <label for="longitude_box">
-          Longitude
-        </label>
-
-        <input type="text" id="longitude_box" name="query_longitude" value="<%= @the_game.longitude %>">
-      </div>
-
-      <div>
-        <label for="search_radius_box">
-          Search radius
-        </label>
-
-        <input type="text" id="search_radius_box" name="query_search_radius" value="<%= @the_game.search_radius %>">
-      </div>
-
-      <div>
-        <label for="number_of_questions_box">
-          Number of questions
-        </label>
-
-        <input type="text" id="number_of_questions_box" name="query_number_of_questions" value="<%= @the_game.number_of_questions %>">
-      </div>
-
-      <div>
-        <label for="correct_answers_box">
-          Correct answers
-        </label>
-
-        <input type="text" id="correct_answers_box" name="query_correct_answers" value="<%= @the_game.correct_answers %>">
-      </div>
-
-      <div>
-        <label for="incorrect_answers_box">
-          Incorrect answers
-        </label>
-
-        <input type="text" id="incorrect_answers_box" name="query_incorrect_answers" value="<%= @the_game.incorrect_answers %>">
-      </div>
-
-      <div>
-        <label for="difficulty_box">
-          Difficulty
-        </label>
-
-        <input type="text" id="difficulty_box" name="query_difficulty" value="<%= @the_game.difficulty %>">
-      </div>
-
-      <div>
-        <label for="user_id_box">
-          User
-        </label>
-
-        <input type="text" id="user_id_box" name="query_user_id" value="<%= @the_game.user_id %>">
-      </div>
-
-      <button>
-        Update game
-      </button>
-    </form>
-  </div>
-</div>
-
-<hr>

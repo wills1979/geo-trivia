@@ -14,6 +14,8 @@ class GamesController < ApplicationController
 
     @the_game = matching_games.at(0)
 
+    @questions = @the_game.questions
+
     render({ :template => "games/show" })
   end
 
@@ -48,7 +50,7 @@ class GamesController < ApplicationController
     game_topic_ids = []
     tries = 0
     max_tries = 20
-    
+
     while game_question_ids.length < (the_game.number_of_questions + 1) and tries < max_tries
       tries += 1
 
