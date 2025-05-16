@@ -1,5 +1,33 @@
-<h1>
-  Your results
-</h1>
+<% if @score > 0.8 %>
+  <h1>Nice job!</h1>
+  <h2>You answered <%= @count_correct %> out of <%= @count_total %> correctly!</h2>
+<% else %>
+  <h1>Oof!</h1>
+  <h2>You answered <%= @count_correct %> out of <%= @count_total %> correctly.</h2>
+<% end %>
 
-<%= @answers %>
+<% @questions.each_with_index  do |question, index| %>
+  <% correct = @results.fetch(question.id.to_s) %>
+  <div>
+
+    <% if correct %>
+      <h3>Question <%= index+1 %>: <%= question.challenge %> <span>&#10004;</span></h3>
+    <% else %>
+      <h3>Question <%= index+1 %>: <%= question.challenge %> <span>&#10008;</span></h3>
+    <% end %>
+
+    <ul>
+      <li><%= question.option_a %></li>
+      <li><%= question.option_b %></li>
+      <li><%= question.option_c %></li>
+      <li><%= question.option_d %></li>
+    </ul>
+  </div>
+
+  <% if correct %>
+    <p>Nice job! You selected the correct answer, <%= @correct_answers.fetch(question.id.to_s) %>!</p>
+  <% else %>
+    <p>You selected <%= @answers.fetch(question.id.to_s) %> and the right answer was <%= @correct_answers.fetch(question.id.to_s) %>.</p>
+  <% end %>
+
+<% end %>

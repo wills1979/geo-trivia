@@ -51,7 +51,7 @@ class GamesController < ApplicationController
     tries = 0
     max_tries = 20
 
-    while game_question_ids.length < (the_game.number_of_questions + 1) and tries < max_tries
+    while game_question_ids.length < (the_game.number_of_questions) and tries < max_tries
       tries += 1
 
       relevant_topic = relevant_topics.sample
@@ -113,8 +113,24 @@ class GamesController < ApplicationController
     the_id = params.fetch("path_id")
     the_game = Game.where({ :id => the_id }).at(0)
     @answers = params[:answers] || {}
+    
+    # determine correct answers
+    @correct_answers = @answers.keys.map { |id| [id, Question.where({ :id => id.to_i }).at(0).correct_answer]}.to_h 
+    @questions = the_game.questions
 
-    puts @answers
+    results_list = []
+    @questions.each do |question|
+      user_answer = @answers.fetch(question.id.to_s)
+      correct_answer = @correct_answers.fetch(question.id.to_s)
+      results_list += [user_answer == correct_answer]
+    end
+
+    @results = @answers.keys.zip(results_list).to_h
+
+    # calculate score
+    @count_correct =  @results.select { |key, value| value == true }.length
+    @count_total = @results.length
+    @score = @count_correct.to_f / @count_total 
 
     render({ :template => "games/results" })
   end
