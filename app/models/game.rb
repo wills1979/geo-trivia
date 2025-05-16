@@ -7,6 +7,7 @@
 #  difficulty          :string
 #  incorrect_answers   :integer
 #  latitude            :float
+#  location            :string
 #  longitude           :float
 #  number_of_questions :integer
 #  search_radius       :float
@@ -18,6 +19,7 @@ class Game < ApplicationRecord
   # validations
   validates :search_radius, presence: true
   validates :number_of_questions, presence: true
+  validates :location, presence: true
   validates :longitude, presence: true
   validates :latitude, presence: true
   validates :incorrect_answers, presence: true
@@ -25,7 +27,7 @@ class Game < ApplicationRecord
   validates :correct_answers, presence: true
 
   # direct associations
-  belongs_to :user
+  belongs_to :user, optional: true
   has_many :game_topics, dependent: :destroy
   has_many :game_questions, dependent: :destroy
 

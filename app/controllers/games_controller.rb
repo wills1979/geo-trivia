@@ -1,8 +1,11 @@
 class GamesController < ApplicationController
   def index
-    matching_games = Game.all
-
-    @list_of_games = matching_games.order({ :created_at => :desc })
+    if current_user
+      matching_games = current_user.games
+      @list_of_games = matching_games.order({ :created_at => :desc })
+    else
+      matching_games = []
+    end
 
     render({ :template => "games/index" })
   end
@@ -20,9 +23,22 @@ class GamesController < ApplicationController
   end
 
   def create
+
+    # turn user location into latitude and longitude plus formatted location name
+    user_location = params.fetch("query_location")
+    gmaps_api_location_input = CGI.escape user_location
+    gmaps_api_url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{gmaps_api_location_input}&key=#{ENV.fetch("GMAPS_KEY")}"
+
+    parsed_gmaps_body = JSON.parse(HTTP.get(gmaps_api_url))
+
+    # extract data
+    formatted_address = parsed_gmaps_body.fetch("results").at(0).fetch("formatted_address")
+    location = parsed_gmaps_body.fetch("results").at(0).fetch("geometry").fetch("location")
+
     the_game = Game.new
-    the_game.latitude = params.fetch("query_latitude")
-    the_game.longitude = params.fetch("query_longitude")
+    the_game.location = formatted_address
+    the_game.latitude = location.fetch("lat")
+    the_game.longitude = location.fetch("lng")
     the_game.search_radius = params.fetch("query_search_radius")
     the_game.number_of_questions = params.fetch("query_number_of_questions")
     the_game.correct_answers = params.fetch("query_correct_answers")
@@ -113,9 +129,9 @@ class GamesController < ApplicationController
     the_id = params.fetch("path_id")
     the_game = Game.where({ :id => the_id }).at(0)
     @answers = params[:answers] || {}
-    
+
     # determine correct answers
-    @correct_answers = @answers.keys.map { |id| [id, Question.where({ :id => id.to_i }).at(0).correct_answer]}.to_h 
+    @correct_answers = @answers.keys.map { |id| [id, Question.where({ :id => id.to_i }).at(0).correct_answer] }.to_h
     @questions = the_game.questions
 
     results_list = []
@@ -130,7 +146,7 @@ class GamesController < ApplicationController
       if correct == true
         question.correct_answers += 1
       end
-      
+
       # update Question table
       question.share_correct = question.correct_answers.to_f / question.attempts
       question.save
@@ -141,13 +157,12 @@ class GamesController < ApplicationController
       game_question.game_id = the_game.id
       game_question.correct = correct
       game_question.save
-
     end
 
     @results = @answers.keys.zip(results_list).to_h
 
     # calculate score
-    @count_correct =  @results.select { |key, value| value == true }.length
+    @count_correct = @results.select { |key, value| value == true }.length
     @count_total = @results.length
     @score = @count_correct.to_f / @count_total
 
