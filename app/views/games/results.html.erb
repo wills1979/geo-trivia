@@ -1,6 +1,9 @@
 <% if @score > 0.8 %>
   <h1>Nice job!</h1>
   <h2>You answered <%= @count_correct %> out of <%= @count_total %> correctly!</h2>
+<% elsif @score > 0.5 %>
+  <h1>Okay!</h1>
+  <h2>You answered <%= @count_correct %> out of <%= @count_total %> correctly.</h2>
 <% else %>
   <h1>Oof!</h1>
   <h2>You answered <%= @count_correct %> out of <%= @count_total %> correctly.</h2>
