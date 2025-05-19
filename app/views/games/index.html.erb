@@ -103,7 +103,7 @@
             </td>
 
             <td>
-              <%= (a_game.correct_answers.to_f / a_game.number_of_questions)*100 %>%
+              <%= ((a_game.correct_answers.to_f / a_game.number_of_questions)*100).round(1) %>%
             </td>
 
             <td>

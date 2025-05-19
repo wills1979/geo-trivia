@@ -27,18 +27,6 @@ task({ :sample_data => :environment }) do
     user.save
   end
 
-  # # add a game
-  # game = Game.new
-  # game.latitude = 41.789010656307404
-  # game.longitude = -87.59731226902139
-  # game.search_radius = 3
-  # game.number_of_questions = 5
-  # game.correct_answers = 3
-  # game.incorrect_answers = 2
-  # game.difficulty = "easy"
-  # game.user_id = User.where({ :email => "alice@example.com" }).at(0).id
-  # game.save
-
   # add a topic
   wiki_text = "The University of Chicago is a private research university located in the Hyde Park neighborhood on Chicago's South Side, approximately 7 miles from downtown. Established in 1890 by the American Baptist Education Society with a significant donation from John D. Rockefeller, the university has become renowned for its rigorous academic programs and influential research. It comprises an undergraduate college, multiple graduate divisions, and several professional schools, including the Booth School of Business, Law School, Pritzker School of Medicine, and Harris School of Public Policy.
 
