@@ -1,50 +1,48 @@
 <div>
-  <h2>
-    Create a game
-  </h2>
+  <p class="display-4">
+    GeoTrivia
+  </p>
 
-  <p>
-    Enter a location below to generate a quiz about people, places, and things around that location!
+  <p class="lead">
+    Enter a location below to play trivia based on people, places, and things around that location!
   </p>
 
   <form action="/insert_game" method="post">
-    <div>
-      <label for="location_box">
-        Location
-      </label>
 
-      <input type="text" id="location_box" name="query_location" value="the university of chicago">
+    <div class="mb-3">
+      <label for="location_box" class="form-label">Location</label>
+      <input type="text" class="form-control w-50" id="location_box" aria-describedby="location" name="query_location" placeholder="Chicago, IL">
     </div>
 
-    <div>
-      <label for="search_radius_box">
+    <div class="mb-3">
+      <label for="search_radius_box" class="form-label">
         Search radius (miles)
       </label>
 
-      <input type="text" id="search_radius_box" name="query_search_radius" value=5>
+      <input type="text" class="form-control w-25" id="search_radius_box" aria-describedby="search_radius" name="query_search_radius" placeholder=5>
     </div>
 
-    <div>
-      <label for="number_of_questions_box">
+    <div class="mb-3">
+      <label for="number_of_questions_box" class="form-label">
         Number of questions
       </label>
 
-      <input type="text" id="number_of_questions_box" name="query_number_of_questions" value=3>
+      <input type="text" class="form-control w-25" id="number_of_questions_box" aria-describedby="search_radius" name="query_number_of_questions" placeholder="3">
     </div>
 
     <div>
-      <p>Select a difficulty:</p>
-      <input type="radio" id="easy" name="query_difficulty" value="easy" checked>
+      <label>Difficulty</label><br>
+      <input type="radio" id="easy" name="query_difficulty" value="easy" checked class="form-check-input">
       <label for="easy">Easy</label><br>
-      <input type="radio" id="medium" name="query_difficulty" value="medium">
+      <input type="radio" id="medium" name="query_difficulty" value="medium" class="form-check-input">
       <label for="medium">Medium</label><br>
-      <input type="radio" id="hard" name="query_difficulty" value="hard">
+      <input type="radio" id="hard" name="query_difficulty" value="hard" class="form-check-input">
       <label for="hard">Hard</label><br>
-      <br>  
+      <br>
     </div>
 
-    <button>
-      Create game
+    <button type="submit" class="btn btn-primary">
+      Create Quiz
     </button>
 
   </form>
@@ -53,7 +51,7 @@
 <hr>
 
 <div>
-  <h2>History</h2>
+  <h4>History</h4>
 
   <% if current_user %>
 

@@ -1,12 +1,12 @@
-<h1>
-  Welcome to your new game!
-</h1>
+<p class="display-6 pt-3">
+  Test your knowledge
+</p>
 
 <hr>
 <form action="/score/<%= @the_game.id %>" method="post">
   <% @questions.each_with_index  do |question, index| %>
     <legend>Question <%= index + 1 %>: <%= question.challenge %></legend>
-    <div class="form-check">
+    <div class="form-check pb-4">
       
 
       <div>
