@@ -141,16 +141,137 @@ class GamesController < ApplicationController
         new_topic.wikipedia_text = wikipedia_text
         new_topic.save
 
+        # create new relevant questions
+        chat = OpenAI::Chat.new
+        chat.system("You are a trivia expert. The user will provide the text from a wikipedia page and you will create three fun multiple choice trivia questions.")
+        chat.schema = '{
+            "name": "trivia_questions",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "questions": {
+                  "type": "array",
+                  "description": "A collection of trivia questions generated from the text.",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "question_text": {
+                        "type": "string",
+                        "description": "The text of the trivia question."
+                      },
+                      "answers": {
+                        "type": "object",
+                        "description": "Possible answers for the trivia question.",
+                        "properties": {
+                          "a": {
+                            "type": "string",
+                            "description": "Answer option a."
+                          },
+                          "b": {
+                            "type": "string",
+                            "description": "Answer option b."
+                          },
+                          "c": {
+                            "type": "string",
+                            "description": "Answer option c."
+                          },
+                          "d": {
+                            "type": "string",
+                            "description": "Answer option d."
+                          }
+                        },
+                        "required": [
+                          "a",
+                          "b",
+                          "c",
+                          "d"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "correct_answer": {
+                        "type": "string",
+                        "description": "The letter of the correct answer (a, b, c, or d)."
+                      },
+                      "difficulty": {
+                        "type": "string",
+                        "description": "The level of difficulty for the trivia question.",
+                        "enum": [
+                          "easy",
+                          "medium",
+                          "hard"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "question_text",
+                      "answers",
+                      "correct_answer",
+                      "difficulty"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "questions"
+              ],
+              "additionalProperties": false
+            },
+            "strict": true
+          }'
+        chat.user(new_topic.wikipedia_text)
+        chat_response = chat.assistant!
+
+        chat_response.fetch("questions").each do |response|
+          # add questions
+
+          question = Question.new
+          question.challenge = response.fetch("question_text")
+          question.topic_id = Topic.all.sample.id
+
+          question.option_a = response.fetch("answers").fetch("a")
+          question.option_b = response.fetch("answers").fetch("b")
+          question.option_c = response.fetch("answers").fetch("c")
+          question.option_d = response.fetch("answers").fetch("d")
+          question.correct_answer = response.fetch("correct_answer")
+
+          question.correct_answers = 0
+          question.attempts = 0
+          question.share_correct = 0
+
+          question.save!
+        end
+
         sleep(0.1.seconds)
       end
 
-      # find new relevant topics
+      # reselect relevant questions
 
+      # find relevant topics
+      relevant_topics = Topic.where(
+        "3959 * acos(cos(radians(?)) * cos(radians(latitude)) *
+   cos(radians(longitude) - radians(?)) +
+   sin(radians(?)) * sin(radians(latitude))) < ?",
+        the_game.latitude, the_game.longitude, the_game.latitude, the_game.search_radius
+      )
 
+      relevant_topic_ids = relevant_topics.pluck(:id)
+      relevant_questions = Question.where(topic_id: relevant_topic_ids)
+
+      # crosscheck relevant questions against previous games
+      if current_user
+        previous_games = current_user.games
+        previous_question_ids = []
+        previous_games.each do |game|
+          previous_question_ids |= game.questions.pluck(:id)
+        end
+
+        relevant_question_ids = relevant_questions.pluck(:id) - previous_question_ids.uniq
+        relevant_questions = relevant_questions.where(id: relevant_question_ids)
+      end
     end
 
-    
-
+    # assign questions to the game
     game_questions = relevant_questions.sample(the_game.number_of_questions)
 
     game_questions.each do |relevant_question|
