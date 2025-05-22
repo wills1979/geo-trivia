@@ -145,7 +145,7 @@ class GamesController < ApplicationController
         # create new relevant questions
         chat = OpenAI::Chat.new
         # chat.model = ""
-        chat.system("You are a trivia expert. The user will provide the text from a wikipedia page and you will create two fun multiple choice trivia questions.")
+        chat.system("You are a pub trivia host. The user will provide the text from a wikipedia page and you will create two fun multiple choice trivia questions. It is also okay to create broader trivia questions about the people, places, or area near which the described place is located. The trivia questions should be fun for a general audience and not repeat the same facts if possible.")
         chat.schema = '{
             "name": "trivia_questions",
             "schema": {
@@ -229,7 +229,7 @@ class GamesController < ApplicationController
 
           question = Question.new
           question.challenge = response.fetch("question_text")
-          question.topic_id = Topic.all.sample.id
+          question.topic_id = new_topic.id
 
           question.option_a = response.fetch("answers").fetch("a")
           question.option_b = response.fetch("answers").fetch("b")
@@ -244,7 +244,6 @@ class GamesController < ApplicationController
           question.save!
         end
 
-        sleep(0.1.seconds)
       end
 
       # reselect relevant questions
@@ -276,6 +275,8 @@ class GamesController < ApplicationController
     # assign questions to the game
     game_questions = relevant_questions.sample(the_game.number_of_questions)
 
+
+
     game_questions.each do |relevant_question|
       # create GameQuestion record
       game_question = GameQuestion.new
@@ -293,6 +294,7 @@ class GamesController < ApplicationController
       game_topic.game_id = the_game.id
       game_topic.save
     end
+
   end
 
   def destroy
