@@ -1,4 +1,13 @@
 class GamesController < ApplicationController
+  def remove_after(text, marker, include_marker: true)
+    if include_marker
+      text.sub(/#{Regexp.escape(marker)}.*/m, "")
+    else
+      text.sub(/#{Regexp.escape(marker)}/m) { |match| match }
+          .sub(/(#{Regexp.escape(marker)})(.*)/m, '\1')
+    end
+  end
+
   def index
     if current_user
       matching_games = current_user.games
@@ -61,32 +70,100 @@ class GamesController < ApplicationController
       the_game.latitude, the_game.longitude, the_game.latitude, the_game.search_radius
     )
 
-    ## TODO: Make this elegant
-    game_question_ids = []
-    game_topic_ids = []
-    tries = 0
-    max_tries = 20
+    relevant_topic_ids = relevant_topics.pluck(:id)
+    relevant_questions = Question.where(topic_id: relevant_topic_ids)
 
-    while game_question_ids.length < (the_game.number_of_questions) and tries < max_tries
-      tries += 1
-
-      relevant_topic = relevant_topics.sample
-      relevant_question = relevant_topic.questions.sample
-
-      if !game_question_ids.include?(relevant_question.id)
-        game_question_ids += [relevant_question.id]
-        game_topic_ids += [relevant_topic.id]
-
-        # create GameQuestion record
-        game_question = GameQuestion.new
-        game_question.question_id = relevant_question.id
-        game_question.game_id = the_game.id
-        game_question.correct = false
-        game_question.save
+    # crosscheck relevant questions against previous games
+    if current_user
+      previous_games = current_user.games
+      previous_question_ids = []
+      previous_games.each do |game|
+        previous_question_ids |= game.questions.pluck(:id)
       end
+
+      relevant_question_ids = relevant_questions.pluck(:id) - previous_question_ids.uniq
+      relevant_questions = relevant_questions.where(id: relevant_question_ids)
     end
 
-    game_topic_ids.uniq.each do |id|
+    # check to see if we need to generate more questions
+    if relevant_questions.count < the_game.number_of_questions
+
+      # find new relevant topics
+      wiki_url = "https://en.wikipedia.org/w/api.php"
+      number_of_pages = 5
+      search_radius_m = (the_game.search_radius * 1000 * 1.60934).round.clamp(10, 10_000)
+      wiki_params = {
+        "format": "json",
+        "list": "geosearch",
+        "gscoord": "#{the_game.latitude}|#{the_game.longitude}",
+        "gslimit": "#{number_of_pages}",
+        "gsradius": "#{search_radius_m}",
+        "action": "query",
+      }
+
+      wiki_response = HTTP.get(wiki_url, params: wiki_params)
+
+      parsed_wiki_response = JSON.parse(wiki_response)
+
+      pages = parsed_wiki_response.fetch("query").fetch("geosearch")
+
+      pages.each do |page|
+        page_id = page.fetch("pageid")
+
+        page_params = {
+          "action": "parse",
+          "pageid": page_id.to_s,
+          "format": "json",
+          "prop": "text",
+          "redirects": "true",
+        }
+
+        pages_data = JSON.parse(HTTP.get(wiki_url, params: page_params))
+
+        title = pages_data.fetch("parse").fetch("title")
+
+        # wikipedia_text
+        html = pages_data.fetch("parse").fetch("text").fetch("*")
+        sanitized_html = ActionView::Base.full_sanitizer.sanitize(html)
+        wikipedia_text = remove_after(sanitized_html, "References[edit]")
+
+        # latitude
+        latitude = page.fetch("lat")
+
+        # longitude
+        longitude = page.fetch("lon")
+
+        # save new topics
+        new_topic = Topic.new
+        new_topic.name = title
+        new_topic.longitude = longitude
+        new_topic.latitude = latitude
+        new_topic.wikipedia_text = wikipedia_text
+        new_topic.save
+
+        sleep(0.1.seconds)
+      end
+
+      # find new relevant topics
+
+
+    end
+
+    
+
+    game_questions = relevant_questions.sample(the_game.number_of_questions)
+
+    game_questions.each do |relevant_question|
+      # create GameQuestion record
+      game_question = GameQuestion.new
+      game_question.question_id = relevant_question.id
+      game_question.game_id = the_game.id
+      game_question.correct = false
+      game_question.save
+    end
+
+    game_topic_ids = game_questions.pluck(:id)
+    game_topic_ids.each do |id|
       # create GameTopic record
       game_topic = GameTopic.new
       game_topic.topic_id = id
@@ -120,9 +197,9 @@ class GamesController < ApplicationController
         correct_answer = @correct_answers.fetch(question.id.to_s)
         correct = [user_answer == correct_answer]
       else
-        correct = [false]        
+        correct = [false]
       end
-      
+
       results_list += correct
 
       # add data to Question table
@@ -175,7 +252,6 @@ class GamesController < ApplicationController
       @results[question.id] = question.game_questions.where({ :game_id => the_game.id }).where({ :question_id => question.id }).at(0).correct
       @answers[question.id] = question.game_questions.where({ :game_id => the_game.id }).where({ :question_id => question.id }).at(0).answer
       @correct_answers[question.id] = question.correct_answer
-
     end
 
     # calculate score
