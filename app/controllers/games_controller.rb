@@ -61,7 +61,7 @@ class GamesController < ApplicationController
     the_game.difficulty = params.fetch("query_difficulty")
     if current_user
       the_game.user_id = current_user.id
-    end
+    end    
 
     # find relevant topics
     relevant_topics = Topic.where(

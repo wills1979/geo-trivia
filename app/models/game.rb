@@ -17,8 +17,20 @@
 #
 class Game < ApplicationRecord
   # validations
-  validates :search_radius, presence: true
-  validates :number_of_questions, presence: true
+  validates :search_radius,
+            presence: true,
+            numericality: {
+              only_integer: true,
+              greater_than_or_equal_to: 1,
+              less_than_or_equal_to: 8,
+            }
+  validates :number_of_questions,
+    presence: true,
+    numericality: {
+      only_integer: true,
+      greater_than_or_equal_to: 1,
+      less_than_or_equal_to: 10,
+    }
   validates :location, presence: true
   validates :longitude, presence: true
   validates :latitude, presence: true
