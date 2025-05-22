@@ -5,7 +5,8 @@
 <hr>
 <form action="/score/<%= @the_game.id %>" method="post">
   <% @questions.each_with_index  do |question, index| %>
-    <legend>Question <%= index + 1 %>: <%= question.challenge %></legend>
+    <legend class="fs-5">Question <%= index + 1 %></legend>
+    <p><%= question.challenge %></p>
     <div class="form-check pb-4">
       
 
@@ -43,103 +44,8 @@
   <% end %>
 
   <div>
-    <button>
+    <button class="btn btn-primary">
       Submit answers
     </button>
   </div>
 </form>
-
-<hr>
-
-<h2>
-  Game details
-</h2>
-
-<div>
-
-  <div>
-    <div>
-      <a href="/games">
-        Go back
-      </a>
-    </div>
-
-    <div>
-      <a href="/delete_game/<%= @the_game.id %>">
-        Delete game
-      </a>
-    </div>
-  </div>
-
-  <dl>
-    <dt>
-      Latitude
-    </dt>
-    <dd>
-      <%= @the_game.latitude %>
-    </dd>
-
-    <dt>
-      Longitude
-    </dt>
-    <dd>
-      <%= @the_game.longitude %>
-    </dd>
-
-    <dt>
-      Search radius
-    </dt>
-    <dd>
-      <%= @the_game.search_radius %>
-    </dd>
-
-    <dt>
-      Number of questions
-    </dt>
-    <dd>
-      <%= @the_game.number_of_questions %>
-    </dd>
-
-    <dt>
-      Correct answers
-    </dt>
-    <dd>
-      <%= @the_game.correct_answers %>
-    </dd>
-
-    <dt>
-      Incorrect answers
-    </dt>
-    <dd>
-      <%= @the_game.incorrect_answers %>
-    </dd>
-
-    <dt>
-      Difficulty
-    </dt>
-    <dd>
-      <%= @the_game.difficulty %>
-    </dd>
-
-    <dt>
-      User
-    </dt>
-    <dd>
-      <%= @the_game.user_id %>
-    </dd>
-
-    <dt>
-      Created at
-    </dt>
-    <dd>
-      <%= time_ago_in_words(@the_game.created_at) %> ago
-    </dd>
-
-    <dt>
-      Updated at
-    </dt>
-    <dd>
-      <%= time_ago_in_words(@the_game.updated_at) %> ago
-    </dd>
-  </dl>
-</div>

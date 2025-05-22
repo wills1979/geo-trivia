@@ -1,15 +1,15 @@
 <% if @score > 0.8 %>
-  <h1>Nice job!</h1>
-  <h2>You answered <%= @count_correct %> out of <%= @count_total %> correctly!</h2>
+  <p class="display-6 pt-3">Nice job!</p>
+  <p class="lead">You answered <%= @count_correct %> out of <%= @count_total %> correctly!</p>
 <% elsif @score > 0.5 %>
-  <h1>Not bad!</h1>
-  <h2>You answered <%= @count_correct %> out of <%= @count_total %> correctly.</h2>
+  <p class="display-6 pt-3">Not bad!</p>
+  <p class="lead">You answered <%= @count_correct %> out of <%= @count_total %> correctly.</p>
 <% elsif @count_correct == 0 %>
-  <h1>Oof!</h1>
-  <h2>You didn't answer any correctly.</h2>
+  <p class="display-6 pt-3">Oof!</p>
+  <p class="lead">You didn't answer any correctly.</p>
 <% else %>
-  <h1>Oof!</h1>
-  <h2>You answered <%= @count_correct %> out of <%= @count_total %> correctly.</h2>
+  <p class="display-6 pt-3">Oof!</p>
+  <p class="lead">You answered <%= @count_correct %> out of <%= @count_total %> correctly.</p>
 <% end %>
 
 <% @questions.each_with_index  do |question, index| %>
@@ -17,9 +17,11 @@
   <div>
 
     <% if correct %>
-      <h3>Question <%= index+1 %>: <%= question.challenge %> <span>&#10004;</span></h3>
+      <legend class="fs-5">Question <%= index+1 %>  <span>&#10004;</span></legend>
+      <p><%= question.challenge %></p>
     <% else %>
-      <h3>Question <%= index+1 %>: <%= question.challenge %> <span>&#10008;</span></h3>
+      <legend class="fs-5">Question <%= index+1 %>  <span>&#10008;</span></legend>
+      <p><%= question.challenge %></p>
     <% end %>
 
     <ol type="a">
@@ -31,17 +33,17 @@
   </div>
 
   <% if correct %>
-    <p>Nice job! You selected the correct answer, <%= @correct_answers.fetch(question.id) %>!</p>
+    <p class="alert alert-success alert-dismissible fade show">Nice job! You selected the correct answer, <%= @correct_answers.fetch(question.id) %>!</p>
   <% elsif @answers.fetch(question.id, nil) != nil%>
-    <p>You selected <%= @answers.fetch(question.id) %> and the right answer was <%= @correct_answers.fetch(question.id) %>.</p>
-    <% else %>
-    <p>You didn't answer this one! The correct answer is <%= question.correct_answer %>.
+    <p class="alert alert-danger alert-dismissible fade show">You selected <%= @answers.fetch(question.id) %> and the right answer was <%= @correct_answers.fetch(question.id) %>.</p>
+  <% else %>
+    <p class="alert alert-danger alert-dismissible fade show">You didn't answer this one! The correct answer is <%= question.correct_answer %>.
+    <% end %>
+
   <% end %>
 
-<% end %>
+  <hr>
 
-<hr>
-
-<a href="/games/">
-  Play again?
-</a>
+  <div class="pb-4">
+    <a href="/games/" class="btn btn-primary fs-5 py-2 px-4">Play again?</a>
+  </div>
