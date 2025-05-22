@@ -20,7 +20,7 @@ class Game < ApplicationRecord
   validates :search_radius,
             presence: true,
             numericality: {
-              only_integer: true,
+              only_integer: false,
               greater_than_or_equal_to: 1,
               less_than_or_equal_to: 8,
             }

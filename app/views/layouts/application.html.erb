@@ -8,25 +8,51 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.css">
+
   </head>
 
   <body>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+      <div class="container-fluid">
+        <%= link_to "Home", games_path, class: "navbar-brand" %>
 
-    <a href="/games">Home</a>
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <% if current_user %>
+            <li class="nav-item">
+              <%= link_to "Edit Profile", edit_user_registration_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Sign Out", destroy_user_session_path, method: :get, class: "nav-link" %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Sign In", new_user_session_path, class: "nav-link" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </nav>
 
-    <% if current_user.present? %>
-      <a href="/users/edit">Edit profile</a>
-
-      <a href="/users/sign_out">Sign out</a>
-    <% else %>  
-      <a href="/users/sign_up">Sign up</a>
-
-      <a href="/users/sign_in">Sign in</a>
+    <% if notice.present? %>
+      <div class="alert alert-primary" role="alert">
+        <%= notice %>
+      </div>
     <% end %>
 
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <% if alert.present? %>
+      <div class="alert alert-warning" role="alert">
+        <%= alert %>
+      </div>
+    <% end %>
 
-    <%= yield %>
+    <div class="container">
+      <%= yield %>
+    </div>
+
   </body>
 </html>

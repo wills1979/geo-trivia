@@ -2,38 +2,38 @@
   Welcome to your new game!
 </h1>
 
-</div>
 <hr>
 <form action="/score/<%= @the_game.id %>" method="post">
   <% @questions.each_with_index  do |question, index| %>
-    <div>
-      <h3>Question: <%= question.challenge %></h3>
+    <legend>Question <%= index + 1 %>: <%= question.challenge %></legend>
+    <div class="form-check">
+      
 
       <div>
         <div class="options">
-          <input type="radio" id="option_<%= index %>a" name="answers[<%= question.id %>]" value="a">
-          <label for="option_<%= index %>a"<%= question.id %>_a">
+          <input type="radio" id="option_<%= index %>a" name="answers[<%= question.id %>]" value="a" class="form-check-input">
+          <label for="option_<%= index %>a">
             a. <%= question.option_a %>
           </label>
         </div>
 
         <div class="options">
-          <input type="radio" id="option_<%= index %>b" name="answers[<%= question.id %>]" value="b">
-          <label for="option_<%= index %>b"<%= question.id %>_b">
+          <input type="radio" id="option_<%= index %>b" name="answers[<%= question.id %>]" value="b" class="form-check-input">
+          <label for="option_<%= index %>b">
             b. <%= question.option_b %>
           </label>
         </div>
 
         <div class="options">
-          <input type="radio" id="option_<%= index %>c" name="answers[<%= question.id %>]" value="c">
-          <label for="option_<%= index %>c"<%= question.id %>_c">
+          <input type="radio" id="option_<%= index %>c" name="answers[<%= question.id %>]" value="c" class="form-check-input">
+          <label for="option_<%= index %>c">
             c. <%= question.option_c %>
           </label>
         </div>
 
         <div class="options">
-          <input type="radio" id="option_<%= index %>d" name="answers[<%= question.id %>]" value="d">
-          <label for="option_<%= index %>d"<%= question.id %>_d">
+          <input type="radio" id="option_<%= index %>d" name="answers[<%= question.id %>]" value="d" class="form-check-input">
+          <label for="option_<%= index %>d">
             d. <%= question.option_d %>
           </label>
         </div>

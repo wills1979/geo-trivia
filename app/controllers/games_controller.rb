@@ -61,7 +61,7 @@ class GamesController < ApplicationController
     the_game.difficulty = params.fetch("query_difficulty")
     if current_user
       the_game.user_id = current_user.id
-    end    
+    end
 
     # find relevant topics
     relevant_topics = Topic.where(
@@ -92,7 +92,7 @@ class GamesController < ApplicationController
       # find new relevant topics
       wiki_url = "https://en.wikipedia.org/w/api.php"
       number_of_pages = 20
-      search_radius_m = (the_game.search_radius * 1000 * 1.60934).round.clamp(10, 10_000)
+      search_radius_m = (the_game.search_radius * 1000 * 1.60934).round(1).to_i.clamp(10, 10_000)
       wiki_params = {
         "format": "json",
         "list": "geosearch",
