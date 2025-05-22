@@ -90,7 +90,7 @@ class GamesController < ApplicationController
 
       # find new relevant topics
       wiki_url = "https://en.wikipedia.org/w/api.php"
-      number_of_pages = 5
+      number_of_pages = 20
       search_radius_m = (the_game.search_radius * 1000 * 1.60934).round.clamp(10, 10_000)
       wiki_params = {
         "format": "json",
@@ -107,7 +107,8 @@ class GamesController < ApplicationController
 
       pages = parsed_wiki_response.fetch("query").fetch("geosearch")
 
-      pages.each do |page|
+      number_of_pages_to_save = 3
+      pages.sample(number_of_pages_to_save).each do |page|
         page_id = page.fetch("pageid")
 
         page_params = {
@@ -143,7 +144,8 @@ class GamesController < ApplicationController
 
         # create new relevant questions
         chat = OpenAI::Chat.new
-        chat.system("You are a trivia expert. The user will provide the text from a wikipedia page and you will create three fun multiple choice trivia questions.")
+        # chat.model = ""
+        chat.system("You are a trivia expert. The user will provide the text from a wikipedia page and you will create two fun multiple choice trivia questions.")
         chat.schema = '{
             "name": "trivia_questions",
             "schema": {
