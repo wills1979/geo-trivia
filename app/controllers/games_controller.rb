@@ -36,9 +36,17 @@ class GamesController < ApplicationController
     gmaps_api_location_input = CGI.escape user_location
     gmaps_api_url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{gmaps_api_location_input}&key=#{ENV.fetch("GMAPS_KEY")}"
 
-    parsed_gmaps_body = JSON.parse(HTTP.get(gmaps_api_url))
+    parsed_gmaps_body = JSON.parse(HTTP.get(gmaps_api_url)) rescue {}
 
-    # extract data
+    location_results = parsed_gmaps_body["results"]
+    location_results = [] unless location_results.is_a?(Array)
+
+    # bail if no location found
+    if location_results.empty?
+      redirect_to("/games",
+                  alert: "Sorry, we didn’t recognize that location. Please try again!") and return
+    end
+
     formatted_address = parsed_gmaps_body.fetch("results").at(0).fetch("formatted_address")
     location = parsed_gmaps_body.fetch("results").at(0).fetch("geometry").fetch("location")
 
@@ -53,13 +61,6 @@ class GamesController < ApplicationController
     the_game.difficulty = params.fetch("query_difficulty")
     if current_user
       the_game.user_id = current_user.id
-    end
-
-    if the_game.valid?
-      the_game.save
-      redirect_to("/games/#{the_game.id}", { :notice => "Game created successfully." })
-    else
-      redirect_to("/games", { :alert => the_game.errors.full_messages.to_sentence })
     end
 
     # find relevant topics
@@ -103,9 +104,18 @@ class GamesController < ApplicationController
 
       wiki_response = HTTP.get(wiki_url, params: wiki_params)
 
-      parsed_wiki_response = JSON.parse(wiki_response)
+      parsed_wiki_response = JSON.parse(wiki_response) rescue {}
 
-      pages = parsed_wiki_response.fetch("query").fetch("geosearch")
+      query_section = parsed_wiki_response["query"]
+      query_section = {} unless query_section.is_a?(Hash)
+
+      pages = query_section["geosearch"]
+      pages = [] unless pages.is_a?(Array)
+
+      if pages.empty?
+        redirect_to("/games",
+                    alert: "Sorry, we couldn’t find any nearby Wikipedia pages. Please try a different location or radius.") and return
+      end
 
       number_of_pages_to_save = 3
       pages.sample(number_of_pages_to_save).each do |page|
@@ -121,18 +131,18 @@ class GamesController < ApplicationController
 
         pages_data = JSON.parse(HTTP.get(wiki_url, params: page_params))
 
-        title = pages_data.fetch("parse").fetch("title")
+        title = pages_data.fetch("parse").fetch("title", "No title found")
 
         # wikipedia_text
-        html = pages_data.fetch("parse").fetch("text").fetch("*")
+        html = pages_data.fetch("parse").fetch("text").fetch("*", "#{the_game.location}")
         sanitized_html = ActionView::Base.full_sanitizer.sanitize(html)
         wikipedia_text = remove_after(sanitized_html, "References[edit]")
 
         # latitude
-        latitude = page.fetch("lat")
+        latitude = page.fetch("lat", nil)
 
         # longitude
-        longitude = page.fetch("lon")
+        longitude = page.fetch("lon", nil)
 
         # save new topics
         new_topic = Topic.new
@@ -243,7 +253,6 @@ class GamesController < ApplicationController
 
           question.save!
         end
-
       end
 
       # reselect relevant questions
@@ -272,10 +281,16 @@ class GamesController < ApplicationController
       end
     end
 
+    # save the game
+    if the_game.valid?
+      the_game.save
+      redirect_to("/games/#{the_game.id}", { :notice => "Game created successfully." })
+    else
+      redirect_to("/games", { :alert => the_game.errors.full_messages.to_sentence })
+    end
+
     # assign questions to the game
     game_questions = relevant_questions.sample(the_game.number_of_questions)
-
-
 
     game_questions.each do |relevant_question|
       # create GameQuestion record
@@ -294,7 +309,6 @@ class GamesController < ApplicationController
       game_topic.game_id = the_game.id
       game_topic.save
     end
-
   end
 
   def destroy
