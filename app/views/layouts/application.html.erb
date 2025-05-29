@@ -13,7 +13,7 @@
 
   </head>
 
-  <body>
+  <body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
       <div class="container-fluid">
         <%= link_to "Home", games_path, class: "navbar-brand" %>
@@ -50,9 +50,11 @@
       </div>
     <% end %>
 
-    <div class="container">
-      <%= yield %>
-    </div>
+    <main class="flex-grow-1">
+      <div class="container">
+        <%= yield %>
+      </div>
+    </main>
 
     <footer class="bg-light text-muted text-left border-top py-3 mt-5 w-100">
       <div class="container">

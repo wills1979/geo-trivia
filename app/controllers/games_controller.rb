@@ -58,7 +58,7 @@ class GamesController < ApplicationController
     the_game.number_of_questions = params.fetch("query_number_of_questions")
     the_game.correct_answers = 0
     the_game.incorrect_answers = 0
-    the_game.difficulty = params.fetch("query_difficulty")
+    the_game.difficulty = params.fetch("query_difficulty", "easy")
     if current_user
       the_game.user_id = current_user.id
     end
